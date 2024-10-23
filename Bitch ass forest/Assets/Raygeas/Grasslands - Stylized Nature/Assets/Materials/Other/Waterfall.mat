@@ -9,6 +9,8 @@ Material:
   m_PrefabAsset: {fileID: 0}
   m_Name: Waterfall
   m_Shader: {fileID: 4800000, guid: 552f7aa33dc7b8a458677a2a43dc4925, type: 3}
+  m_Parent: {fileID: 0}
+  m_ModifiedSerializedProperties: 0
   m_ValidKeywords:
   - _OPACITYENABLE_ON
   m_InvalidKeywords: []
@@ -18,6 +20,7 @@ Material:
   m_CustomRenderQueue: -1
   stringTagMap: {}
   disabledShaderPasses: []
+  m_LockedProperties: 
   m_SavedProperties:
     serializedVersion: 3
     m_TexEnvs:
@@ -89,33 +92,33 @@ Material:
     - _EnableGradient: 1
     - _EnvironmentReflections: 1
     - _Float0: 0.09
-    - _FlowSpeed: 2
-    - _FoamFade: -0.39
+    - _FlowSpeed: 0.5
+    - _FoamFade: 0.29
     - _FoamInt: 0.4
-    - _FoamLevel: -0.8
-    - _FoamOffset: 2.27
+    - _FoamLevel: -0.53
+    - _FoamOffset: 1.15
     - _FoamPower: 3
-    - _FoamScale: 4.96
+    - _FoamScale: 3
     - _FoamSpeed: 0.15
     - _FoamTilingX: 3
     - _FoamTilingY: 0.15
-    - _FoamVoronoiSpeed: 3
+    - _FoamVoronoiSpeed: 1
     - _GlossMapScale: 1
     - _Glossiness: 0.5
     - _GlossyReflections: 1
     - _Gradient: 1
     - _GradientFade: -1
-    - _GradientLevel: 0
+    - _GradientLevel: 2.46
     - _Metallic: 1
     - _Mode: 0
-    - _NormalScale: 2.5
-    - _NormalTilingX: 3
-    - _NormalTilingY: 0.3
+    - _NormalScale: 2.06
+    - _NormalTilingX: 1.02
+    - _NormalTilingY: 0.16
     - _OcclusionStrength: 1
     - _Offset: 4.57
     - _OpacityEnable: 1
-    - _OpacityFade: -3.18
-    - _OpacityLevel: -0.94
+    - _OpacityFade: -2.88
+    - _OpacityLevel: -1.01
     - _Parallax: 0.02
     - _Power: 5
     - _QueueControl: 0
@@ -123,14 +126,14 @@ Material:
     - _ReceiveShadows: 1
     - _RefractionFactor: 1
     - _Scale: 15
-    - _Smoothness: 0.8
+    - _Smoothness: 0.827
     - _SmoothnessTextureChannel: 0
     - _SpecularHighlights: 1
     - _SrcBlend: 1
     - _UVSec: 0
     - _VOInt: 0.15
     - _VOIntensity: 0.25
-    - _VOScale: 3
+    - _VOScale: 2.3
     - _VOSpeed: 0.7
     - _VoronoiSpeed: 3
     - _WaterSpeed: 0.1
