@@ -26,6 +26,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1541856703191601882}
+  serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
@@ -33,7 +34,6 @@ Transform:
   m_Children:
   - {fileID: 7551047037317751382}
   m_Father: {fileID: 0}
-  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!33 &2990897824099796933
 MeshFilter:
@@ -99,11 +99,11 @@ LODGroup:
   m_AnimateCrossFading: 1
   m_LastLODIsBillboard: 0
   m_LODs:
-  - screenRelativeHeight: 0.34973994
+  - screenRelativeHeight: 0.8003137
     fadeTransitionWidth: 0
     renderers:
     - renderer: {fileID: 1037300094176981775}
-  - screenRelativeHeight: 0.042571496
+  - screenRelativeHeight: 0.10305826
     fadeTransitionWidth: 0
     renderers:
     - renderer: {fileID: 1001745281816256010}
@@ -133,13 +133,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8324584623427447576}
+  serializedVersion: 2
   m_LocalRotation: {x: 0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0.0000012207031, y: 0, z: 0}
   m_LocalScale: {x: 0.7774741, y: 0.7774741, z: 0.7774741}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 2174700049290365024}
-  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!33 &7300366535319305158
 MeshFilter:
