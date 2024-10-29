@@ -20,7 +20,7 @@ public class FishingRod : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+        UpdateLineRenderer();
     }
 
     void UpdateLineRenderer()

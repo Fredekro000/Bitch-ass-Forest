@@ -7,9 +7,9 @@ public class FishingLogic : MonoBehaviour
     public Transform lure;
 
     public Transform fish;
-    public float attachDistance = 1.0f;
+    public float attachDistance = 0.01f;
 
-    private bool isFishAttached = false;
+    public bool isFishAttached = false;
     // Start is called before the first frame update
     void Start()
     {
