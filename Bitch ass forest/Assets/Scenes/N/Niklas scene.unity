@@ -1713,7 +1713,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &349105576
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2495,7 +2495,7 @@ PrefabInstance:
     - target: {fileID: 7084133762408319949, guid: ca4cc2a89c25a6e43a03304f3269847d,
         type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7259367742038706979, guid: ca4cc2a89c25a6e43a03304f3269847d,
         type: 3}
@@ -4062,7 +4062,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &1066990707
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5802,6 +5802,7 @@ GameObject:
   - component: {fileID: 1555709905}
   - component: {fileID: 1555709904}
   - component: {fileID: 1555709903}
+  - component: {fileID: 1555709907}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -6036,6 +6037,15 @@ Camera:
   m_OcclusionCulling: 1
   m_StereoConvergence: 10
   m_StereoSeparation: 0.022
+--- !u!45 &1555709907
+Skybox:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1555709901}
+  m_Enabled: 1
+  m_CustomSkybox: {fileID: 2100000, guid: 71f42316c6eb61246968a1779882710f, type: 2}
 --- !u!1 &1567300299
 GameObject:
   m_ObjectHideFlags: 0
