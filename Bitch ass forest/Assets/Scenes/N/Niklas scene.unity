@@ -2501,7 +2501,7 @@ PrefabInstance:
     - target: {fileID: 7084133762408319949, guid: ca4cc2a89c25a6e43a03304f3269847d,
         type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7259367742038706979, guid: ca4cc2a89c25a6e43a03304f3269847d,
         type: 3}
@@ -4068,7 +4068,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &1066990707
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4280,6 +4280,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: XR Origin (XR Rig) (1)
+      objectReference: {fileID: 0}
+    - target: {fileID: 9098864659243115597, guid: 5bd57cfee7eddba4f9b0070b2d35b306,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 7443189455107194090, guid: 5bd57cfee7eddba4f9b0070b2d35b306, type: 3}
@@ -6965,11 +6970,11 @@ Terrain:
   m_Enabled: 1
   serializedVersion: 6
   m_TerrainData: {fileID: 15600000, guid: bd2520abaa9f1994b8b060174125237e, type: 2}
-  m_TreeDistance: 5000
-  m_TreeBillboardDistance: 5
+  m_TreeDistance: 1000
+  m_TreeBillboardDistance: 20
   m_TreeCrossFadeLength: 5
   m_TreeMaximumFullLODCount: 50
-  m_DetailObjectDistance: 80
+  m_DetailObjectDistance: 15
   m_DetailObjectDensity: 1
   m_HeightmapPixelError: 1
   m_SplatMapDistance: 1000
