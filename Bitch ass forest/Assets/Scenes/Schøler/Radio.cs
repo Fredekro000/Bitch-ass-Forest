@@ -8,6 +8,8 @@ public class Radio : MonoBehaviour
     public AnimationClip RadioOn; 
     public AnimationClip RadioOff;
     bool RadioState = false;
+    bool isCooldown = false;
+    const float cooldownDuration = 2f;   
     
     const float fadeTime = 1.5f;
     public AudioSource RadioSound;
@@ -21,9 +23,11 @@ public class Radio : MonoBehaviour
         RadioSound.Pause();     // Start paused
     }
 
-    // This function will be called by the XR button press
+    
     public void ToggleRadio()
     {
+        if (isCooldown) return; 
+
         if (!RadioState)
         {
             RadioState = true;
@@ -39,6 +43,8 @@ public class Radio : MonoBehaviour
             animator.Play(RadioOff.name);
             StartCoroutine(FadeOut(RadioSound, fadeTime));
         }
+
+        StartCoroutine(StartCooldown()); 
     }
 
     IEnumerator FadeIn(AudioSource audioSource, float duration)
@@ -52,7 +58,7 @@ public class Radio : MonoBehaviour
             yield return null;
         }
 
-        audioSource.volume = 1f; // Ensure volume is fully up at the end
+        audioSource.volume = 1f;
     }
 
     IEnumerator FadeOut(AudioSource audioSource, float duration)
@@ -65,7 +71,14 @@ public class Radio : MonoBehaviour
             yield return null;
         }
 
-        audioSource.volume = 0f; // Ensure volume is completely off at the end
+        audioSource.volume = 0f; 
         audioSource.Pause();
+    }
+
+    IEnumerator StartCooldown()
+    {
+        isCooldown = true; 
+        yield return new WaitForSeconds(cooldownDuration);
+        isCooldown = false; 
     }
 }
