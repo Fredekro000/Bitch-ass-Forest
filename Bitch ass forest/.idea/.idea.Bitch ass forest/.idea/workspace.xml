@@ -6,6 +6,28 @@
   <component name="ChangeListManager">
     <list default="true" id="b06135d4-aff9-4eb3-9d54-c62260057f4c" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/.idea.Bitch ass forest/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.Bitch ass forest/.idea/workspace.xml" afterDir="false" />
+<<<<<<< Updated upstream
+=======
+      <change beforePath="$PROJECT_DIR$/Assets/Raygeas/Grasslands - Stylized Nature/Assets/Prefabs/Vegetation/Broadleaf_Large_1.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Raygeas/Grasslands - Stylized Nature/Assets/Prefabs/Vegetation/Broadleaf_Large_1.prefab" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Raygeas/Grasslands - Stylized Nature/Assets/Prefabs/Vegetation/Broadleaf_Large_2.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Raygeas/Grasslands - Stylized Nature/Assets/Prefabs/Vegetation/Broadleaf_Large_2.prefab" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Raygeas/Grasslands - Stylized Nature/Assets/Prefabs/Vegetation/Broadleaf_Medium_1.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Raygeas/Grasslands - Stylized Nature/Assets/Prefabs/Vegetation/Broadleaf_Medium_1.prefab" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Raygeas/Grasslands - Stylized Nature/Assets/Prefabs/Vegetation/Broadleaf_Medium_2.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Raygeas/Grasslands - Stylized Nature/Assets/Prefabs/Vegetation/Broadleaf_Medium_2.prefab" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Raygeas/Grasslands - Stylized Nature/Assets/Prefabs/Vegetation/Broadleaf_Small_1 1.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Raygeas/Grasslands - Stylized Nature/Assets/Prefabs/Vegetation/Broadleaf_Small_1 1.prefab" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Raygeas/Grasslands - Stylized Nature/Assets/Prefabs/Vegetation/Broadleaf_Small_2.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Raygeas/Grasslands - Stylized Nature/Assets/Prefabs/Vegetation/Broadleaf_Small_2.prefab" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Raygeas/Grasslands - Stylized Nature/Assets/Prefabs/Vegetation/Bush_Large.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Raygeas/Grasslands - Stylized Nature/Assets/Prefabs/Vegetation/Bush_Large.prefab" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Raygeas/Grasslands - Stylized Nature/Assets/Prefabs/Vegetation/Bush_Medium.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Raygeas/Grasslands - Stylized Nature/Assets/Prefabs/Vegetation/Bush_Medium.prefab" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Raygeas/Grasslands - Stylized Nature/Assets/Prefabs/Vegetation/Bush_Small.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Raygeas/Grasslands - Stylized Nature/Assets/Prefabs/Vegetation/Bush_Small.prefab" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scenes/N/Niklas scene.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scenes/N/Niklas scene.unity" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/TerrainData_113bdfee-df14-4e70-a8d6-6b3255cbdd2a.asset" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/TerrainData_113bdfee-df14-4e70-a8d6-6b3255cbdd2a.asset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/TerrainData_1717791c-249c-4ea1-a4fe-ea238756ab95.asset" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/TerrainData_1717791c-249c-4ea1-a4fe-ea238756ab95.asset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/TerrainData_35749336-b04e-4a8a-a8e0-0ee5ff3ff8b0.asset" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/TerrainData_35749336-b04e-4a8a-a8e0-0ee5ff3ff8b0.asset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/TerrainData_9bd29c43-608c-4bd1-9ffe-60364732db00.asset" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/TerrainData_9bd29c43-608c-4bd1-9ffe-60364732db00.asset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/TerrainData_9fe35440-7462-4daf-9fc5-8dd5e3e9e8af.asset" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/TerrainData_9fe35440-7462-4daf-9fc5-8dd5e3e9e8af.asset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/TerrainData_c2e4dcf7-9410-4b4c-b557-feefd0f51a5f.asset" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/TerrainData_c2e4dcf7-9410-4b4c-b557-feefd0f51a5f.asset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/TerrainData_e9324a17-e3a8-4c12-8df0-3038aef9cef5.asset" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/TerrainData_e9324a17-e3a8-4c12-8df0-3038aef9cef5.asset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/TerrainData_fd2df2ba-9106-4459-842f-ba68e4326544.asset" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/TerrainData_fd2df2ba-9106-4459-842f-ba68e4326544.asset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ProjectSettings/ProjectSettings.asset" beforeDir="false" afterPath="$PROJECT_DIR$/ProjectSettings/ProjectSettings.asset" afterDir="false" />
+>>>>>>> Stashed changes
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -14,6 +36,12 @@
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
+  </component>
+  <component name="HighlightingSettingsPerFile">
+    <setting file="file://$PROJECT_DIR$/Assets/Scenes/N/Niklas scene_Profiles/controllerControl.cs" root0="FORCE_HIGHLIGHTING" />
+  </component>
+  <component name="MarkdownSettingsMigration">
+    <option name="stateVersion" value="1" />
   </component>
   <component name="ProjectColorInfo">{
   &quot;customColor&quot;: &quot;&quot;,
@@ -109,8 +137,14 @@
       <workItem from="1730119461612" duration="2000" />
       <workItem from="1730120745079" duration="2539000" />
       <workItem from="1730192672422" duration="5148000" />
+<<<<<<< Updated upstream
       <workItem from="1730278881139" duration="619000" />
       <workItem from="1730365894419" duration="3000" />
+=======
+      <workItem from="1730278881139" duration="1216000" />
+      <workItem from="1730296936351" duration="398000" />
+      <workItem from="1730368449969" duration="1559000" />
+>>>>>>> Stashed changes
     </task>
     <servers />
   </component>
