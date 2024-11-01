@@ -9,6 +9,8 @@ public class FishingRod : MonoBehaviour
     public LineRenderer lineR;
 
     private Rigidbody lureRb;
+
+    public float castForce = 10f;
     
     // Start is called before the first frame update
     void Start()
@@ -21,11 +23,23 @@ public class FishingRod : MonoBehaviour
     void Update()
     {
         UpdateLineRenderer();
+
+        if (Input.GetButtonDown("Fire1"))
+        {
+            CastLure();
+        }
     }
 
     void UpdateLineRenderer()
     {
         lineR.SetPosition(0, rodTip.position);
         lineR.SetPosition(1, lure.position);
+    }
+
+    void CastLure()
+    {
+        Rigidbody lureRb = lure.GetComponent<Rigidbody>();
+        this.lureRb.isKinematic = false;
+        lureRb.AddForce(transform.forward * castForce, ForceMode.Impulse);
     }
 }
