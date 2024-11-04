@@ -21,8 +21,8 @@ public class FishingRod : MonoBehaviour
     public float segmentLength = 0.1f;
     private Vector3[] points;
     
-    private LureState currentState = LureState.Idle;
-    public enum LureState
+    private FishingRodState currentState = FishingRodState.Idle;
+    public enum FishingRodState
     {
         Idle,
         Casting,
@@ -55,33 +55,38 @@ public class FishingRod : MonoBehaviour
         
         switch (currentState)
         {
-            case LureState.Idle:
+            case FishingRodState.Idle:
                 UpdateIdleState();
                 break;
-            case LureState.Casting:
+            case FishingRodState.Casting:
                 UpdateCastingState();
                 break;
-            case LureState.Reeling:
+            case FishingRodState.Reeling:
                 UpdateReelingState();
                 break;
         }
 
-        if (Input.GetButtonDown("Fire1") && currentState == LureState.Idle)
+        if (Input.GetButtonDown("Fire1") && currentState == FishingRodState.Idle)
         {
             Debug.Log("Fire1 pressed");
             CastLure();
         }
         
-        if (Input.GetButtonUp("Fire1") && currentState == LureState.Casting)
+        if (Input.GetButtonUp("Fire1") && currentState == FishingRodState.Casting)
         {
             Debug.Log("Fire1 released");
             StopCasting();
         }
 
-        if (Input.GetButtonDown("Fire2") && currentState != LureState.Reeling)
+        if (Input.GetButtonDown("Fire2") && currentState != FishingRodState.Reeling)
         {
             Debug.Log("Fire2 pressed");
             StartReeling();
+        }
+
+        if (Input.GetButtonUp("Fire2") && currentState == FishingRodState.Reeling)
+        {
+            currentState = FishingRodState.Casting;
         }
 
         /*if (isReeling)
@@ -125,14 +130,15 @@ public class FishingRod : MonoBehaviour
         lure.position = Vector3.MoveTowards(lure.position, targetPosition, reelSpeed * Time.deltaTime);
         if (Vector3.Distance(lure.position, targetPosition) < 0.1f)
         {
-            currentState = LureState.Idle;
+            currentState = FishingRodState.Idle;
+            lureRb.isKinematic = true;
             Debug.Log("Reeling stopped");
         }
     }
     
     void CastLure()
     {
-        currentState = LureState.Casting;
+        currentState = FishingRodState.Casting;
         //isCasting = true;
         lureRb.isKinematic = false;
         Debug.Log("Casting started");
@@ -142,16 +148,16 @@ public class FishingRod : MonoBehaviour
 
     void StopCasting()
     {
-        currentState = LureState.Casting;
+        currentState = FishingRodState.Casting;
         //isCasting = false;
         print("Casting stopped");
     }
 
     void StartReeling()
     {
-        currentState = LureState.Reeling;
+        currentState = FishingRodState.Reeling;
         //isReeling = true;
-        lureRb.isKinematic = true;
+        //lureRb.isKinematic = true;
         print("reeling started");
     }
 

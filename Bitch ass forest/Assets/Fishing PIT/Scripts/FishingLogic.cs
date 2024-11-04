@@ -19,6 +19,16 @@ public class FishingLogic : MonoBehaviour
     public GameObject splashParticlePrefab;
     public float splashDelayMin = 2f;
     public float splashDelayMax = 5f;
+
+    private LureState currentState = LureState.Idle;
+    public enum LureState
+    {
+        Idle,
+        InWater,
+        HookingFish
+    }
+    
+    private GameObject currentSplashParticle;
     
     // Start is called before the first frame update
     void Start()
@@ -29,11 +39,29 @@ public class FishingLogic : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        switch (currentState)
+        {
+            case LureState.Idle:
+                UpdateIdleState();
+                break;
+            case LureState.InWater:
+                UpdateInWaterState();
+                break;
+            case LureState.HookingFish:
+                UpdateHookingFishState();
+                break;
+        }
+        
         if (!isLureOnWater && IsLureOnWater())
         {
-            StickLureToWater();
+            currentState = LureState.InWater;
         }
 
+        if (currentSplashParticle != null)
+        {
+            MoveSplashParticleTowardsLure();
+        }
+        /*
         if (isLureOnWater)
         {
             GlideLureOnWater();
@@ -42,9 +70,36 @@ public class FishingLogic : MonoBehaviour
         if (!isFishAttached && IsLureOnWater())
         {
             AttachFishToLure();
+        }*/
+    }
+
+
+    void UpdateIdleState()
+    {
+        Debug.Log("Idle State");
+        if (IsLureOnWater())
+        {
+            TransitionToState(LureState.InWater);
         }
     }
 
+    void UpdateInWaterState()
+    {
+        Debug.Log("Water State");
+        StickLureToWater();
+        if (!IsLureOnWater())
+        {
+            TransitionToState(LureState.Idle);
+        }
+        
+        
+    }
+
+    void UpdateHookingFishState()
+    {
+        AttachFishToLure();
+        Debug.Log("Hooking Fish State");
+    }
     bool IsLureOnWater()
     {
         RaycastHit hit;
@@ -53,10 +108,11 @@ public class FishingLogic : MonoBehaviour
         {
             if (hit.transform.CompareTag("Water"))
             {
+                //print("lure is on water");
                 return true;
             }
         }
-
+        //print("lure is no longer on water");
         return false;
     }
 
@@ -74,23 +130,50 @@ public class FishingLogic : MonoBehaviour
         lure.GetComponent<Rigidbody>().isKinematic = true;
         lure.position = new Vector3(lure.position.x, lure.position.y, lure.position.z);
     }
-
-    void GlideLureOnWater()
-    {
-        //lure.position += Vector3.right * glideSpeed * Time.deltaTime;
-    }
-
+    
     IEnumerator SplashEffectCoroutine()
     {
         while (true)
         {
             yield return new WaitForSeconds(Random.Range(splashDelayMin, splashDelayMax));
-            if (isLureOnWater)
+            if (isLureOnWater && currentState == LureState.InWater)
             {
-                Vector3 splashPosition = lure.position + Random.insideUnitSphere * 1f;
+                Vector3 splashPosition = lure.position + Random.insideUnitSphere * 3f;
                 splashPosition.y = lure.position.y;
-                Instantiate(splashParticlePrefab, splashPosition, quaternion.identity);
+                currentSplashParticle = Instantiate(splashParticlePrefab, splashPosition, quaternion.identity);
+                currentSplashParticle.transform.rotation = Quaternion.LookRotation(Vector3.up);
             }
+        }
+    }
+
+    void MoveSplashParticleTowardsLure()
+    {
+        if (currentSplashParticle != null)
+        {
+            currentSplashParticle.transform.position = Vector3.MoveTowards(currentSplashParticle.transform.position,
+                lure.position, Time.deltaTime * glideSpeed);
+            if (Vector3.Distance(currentSplashParticle.transform.position, lure.position) < attachDistance)
+            {
+                Destroy(currentSplashParticle);
+                currentSplashParticle = null;
+                TransitionToState(LureState.HookingFish);
+            }
+        }
+    }
+    void TransitionToState(LureState newState)
+    {
+        currentState = newState;
+        switch (newState)
+        {
+            case LureState.Idle:
+                isLureOnWater = false;
+                break;
+            case LureState.InWater:
+                
+                break;
+            case LureState.HookingFish:
+                StopCoroutine(SplashEffectCoroutine());
+                break;
         }
     }
 }
