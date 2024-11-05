@@ -29,12 +29,15 @@ public class FishingRod : MonoBehaviour
         Reeling
     }
     
+    private FishingLogic fishingLogic;
+    
     // Start is called before the first frame update
     void Start()
     {
         //lineR.positionCount = 2;
         
         lureRb = lure.GetComponent<Rigidbody>();
+        fishingLogic = GetComponent<FishingLogic>();
 
         lineR.positionCount = segments;
 
@@ -66,7 +69,7 @@ public class FishingRod : MonoBehaviour
                 break;
         }
 
-        if (Input.GetButtonDown("Fire1") && currentState == FishingRodState.Idle)
+        if (Input.GetButtonDown("Fire1") && currentState == FishingRodState.Idle && FishingLogic.currentState == FishingLogic.LureState.Idle)
         {
             Debug.Log("Fire1 pressed");
             CastLure();

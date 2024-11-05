@@ -20,7 +20,7 @@ public class FishingLogic : MonoBehaviour
     public float splashDelayMin = 2f;
     public float splashDelayMax = 5f;
 
-    private LureState currentState = LureState.Idle;
+    public LureState currentState = LureState.Idle;
     public enum LureState
     {
         Idle,
@@ -29,6 +29,7 @@ public class FishingLogic : MonoBehaviour
     }
     
     private GameObject currentSplashParticle;
+    public bool splashParticleActive = false;
     
     // Start is called before the first frame update
     void Start()
@@ -104,15 +105,23 @@ public class FishingLogic : MonoBehaviour
     {
         RaycastHit hit;
         float sphereRadius = 0.1f;
-        if (Physics.SphereCast(lure.position, sphereRadius, Vector3.down, out hit, attachDistance))
+        float castDistance = 0.1f;
+        
+        Debug.DrawRay(lure.position, Vector3.down * castDistance, Color.red);
+        
+        if (Physics.SphereCast(lure.position, sphereRadius, Vector3.down, out hit, castDistance))
         {
             if (hit.transform.CompareTag("Water"))
             {
-                //print("lure is on water");
+                print("lure is on water");
                 return true;
             }
+            else
+            {
+                Debug.Log("Hit something else: " + hit.transform.name);
+            }
         }
-        //print("lure is no longer on water");
+        print("lure is no longer on water");
         return false;
     }
 
@@ -136,12 +145,13 @@ public class FishingLogic : MonoBehaviour
         while (true)
         {
             yield return new WaitForSeconds(Random.Range(splashDelayMin, splashDelayMax));
-            if (isLureOnWater && currentState == LureState.InWater)
+            if (isLureOnWater && currentState == LureState.InWater && !splashParticleActive)
             {
                 Vector3 splashPosition = lure.position + Random.insideUnitSphere * 3f;
                 splashPosition.y = lure.position.y;
                 currentSplashParticle = Instantiate(splashParticlePrefab, splashPosition, quaternion.identity);
                 currentSplashParticle.transform.rotation = Quaternion.LookRotation(Vector3.up);
+                splashParticleActive = true;
             }
         }
     }
@@ -156,6 +166,7 @@ public class FishingLogic : MonoBehaviour
             {
                 Destroy(currentSplashParticle);
                 currentSplashParticle = null;
+                splashParticleActive = false;
                 TransitionToState(LureState.HookingFish);
             }
         }
@@ -166,10 +177,11 @@ public class FishingLogic : MonoBehaviour
         switch (newState)
         {
             case LureState.Idle:
-                isLureOnWater = false;
+                //isLureOnWater = false;
                 break;
             case LureState.InWater:
-                
+                isLureOnWater = true;
+                splashParticleActive = false;
                 break;
             case LureState.HookingFish:
                 StopCoroutine(SplashEffectCoroutine());
