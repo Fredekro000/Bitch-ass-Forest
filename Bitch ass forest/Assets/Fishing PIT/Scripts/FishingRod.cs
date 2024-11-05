@@ -2,6 +2,12 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+public enum FishingRodState
+{
+    Idle,
+    Casting,
+    Reeling
+}
 public class FishingRod : MonoBehaviour
 {
     public Transform rodTip;
@@ -22,12 +28,6 @@ public class FishingRod : MonoBehaviour
     private Vector3[] points;
     
     private FishingRodState currentState = FishingRodState.Idle;
-    public enum FishingRodState
-    {
-        Idle,
-        Casting,
-        Reeling
-    }
     
     private FishingLogic fishingLogic;
     
@@ -69,7 +69,7 @@ public class FishingRod : MonoBehaviour
                 break;
         }
 
-        if (Input.GetButtonDown("Fire1") && currentState == FishingRodState.Idle && FishingLogic.currentState == FishingLogic.LureState.Idle)
+        if (Input.GetButtonDown("Fire1") && currentState == FishingRodState.Idle && fishingLogic.currentState == LureState.Idle)
         {
             Debug.Log("Fire1 pressed");
             CastLure();

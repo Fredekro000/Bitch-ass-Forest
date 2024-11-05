@@ -4,6 +4,13 @@ using Unity.Mathematics;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
+public enum LureState
+{
+    Idle,
+    InWater,
+    HookingFish
+}
+
 public class FishingLogic : MonoBehaviour
 {
     public Transform lure;
@@ -21,12 +28,7 @@ public class FishingLogic : MonoBehaviour
     public float splashDelayMax = 5f;
 
     public LureState currentState = LureState.Idle;
-    public enum LureState
-    {
-        Idle,
-        InWater,
-        HookingFish
-    }
+    
     
     private GameObject currentSplashParticle;
     public bool splashParticleActive = false;
