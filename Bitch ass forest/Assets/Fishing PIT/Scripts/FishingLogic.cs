@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using Unity.Mathematics;
 using UnityEngine;
+using UnityEngine.UI;
 using Random = UnityEngine.Random;
 
 public enum LureState
@@ -32,6 +33,9 @@ public class FishingLogic : MonoBehaviour
     
     private GameObject currentSplashParticle;
     public bool splashParticleActive = false;
+
+    public float currentStrain = 0f;
+    public float strainThreshold = 100f;
     
     // Start is called before the first frame update
     void Start()
@@ -89,7 +93,7 @@ public class FishingLogic : MonoBehaviour
     void UpdateInWaterState()
     {
         Debug.Log("Water State");
-        StickLureToWater();
+        //StickLureToWater();
         if (!IsLureOnWater())
         {
             TransitionToState(LureState.Idle);
@@ -100,7 +104,7 @@ public class FishingLogic : MonoBehaviour
 
     void UpdateHookingFishState()
     {
-        AttachFishToLure();
+        //AttachFishToLure();
         Debug.Log("Hooking Fish State");
     }
     bool IsLureOnWater()
@@ -169,6 +173,7 @@ public class FishingLogic : MonoBehaviour
                 Destroy(currentSplashParticle);
                 currentSplashParticle = null;
                 splashParticleActive = false;
+                AttachFishToLure();
                 TransitionToState(LureState.HookingFish);
             }
         }
@@ -179,15 +184,50 @@ public class FishingLogic : MonoBehaviour
         switch (newState)
         {
             case LureState.Idle:
-                //isLureOnWater = false;
+                isLureOnWater = false;
+                currentStrain = 0f;
                 break;
             case LureState.InWater:
                 isLureOnWater = true;
                 splashParticleActive = false;
+                StickLureToWater();
                 break;
             case LureState.HookingFish:
                 StopCoroutine(SplashEffectCoroutine());
                 break;
+        }
+    }
+
+    IEnumerator FishStruggleCoroutine()
+    {
+        while (currentState == LureState.HookingFish)
+        {
+            yield return new WaitForSeconds(Random.Range(1f, 3f));
+            Vector3 struggleDirection = new Vector3(Random.Range(-1f, 1f), 0, Random.Range(-1f, 1f)).normalized;
+            float struggleDuration = Random.Range(1f, 2f);
+            StartCoroutine(ApplyStrain(struggleDirection, struggleDuration));
+        }
+    }
+
+    IEnumerator ApplyStrain(Vector3 direction, float duration)
+    {
+        float elapsedTime = 0f;
+        while (elapsedTime < duration)
+        {
+            if (currentState != LureState.HookingFish) yield break;
+            
+            lure.position += direction * Time.deltaTime;
+            currentStrain += direction.magnitude * Time.deltaTime;
+
+            if (currentStrain > strainThreshold)
+            {
+                Debug.Log("Line Snapped!");
+                TransitionToState(LureState.Idle);
+                yield break;
+            }
+            
+            elapsedTime += Time.deltaTime;
+            yield return null;
         }
     }
 }

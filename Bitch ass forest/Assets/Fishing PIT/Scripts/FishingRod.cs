@@ -6,7 +6,8 @@ public enum FishingRodState
 {
     Idle,
     Casting,
-    Reeling
+    Reeling,
+    ReelingFish
 }
 public class FishingRod : MonoBehaviour
 {
@@ -18,6 +19,7 @@ public class FishingRod : MonoBehaviour
     private Rigidbody lureRb;
     public float castForce = 10f;
     public float reelSpeed = 5f;
+    public float fishHookedReelSpeed = 3f;
 
     //public bool isCasting = false;
     //public bool isReeling = false;
@@ -67,6 +69,9 @@ public class FishingRod : MonoBehaviour
             case FishingRodState.Reeling:
                 UpdateReelingState();
                 break;
+            case FishingRodState.ReelingFish:
+                UpdateReelingFishState();
+                break;
         }
 
         if (Input.GetButtonDown("Fire1") && currentState == FishingRodState.Idle && fishingLogic.currentState == LureState.Idle)
@@ -90,6 +95,18 @@ public class FishingRod : MonoBehaviour
         if (Input.GetButtonUp("Fire2") && currentState == FishingRodState.Reeling)
         {
             currentState = FishingRodState.Casting;
+        }
+
+        if (Input.GetButtonDown("Fire2") && currentState == FishingRodState.ReelingFish &&
+            fishingLogic.currentState == LureState.HookingFish)
+        {
+            
+        }
+
+        if (Input.GetButtonUp("Fire2") && currentState == FishingRodState.ReelingFish &&
+            fishingLogic.currentState == LureState.HookingFish)
+        {
+            
         }
 
         /*if (isReeling)
@@ -131,6 +148,19 @@ public class FishingRod : MonoBehaviour
     {
         Vector3 targetPosition = rodTip.position;
         lure.position = Vector3.MoveTowards(lure.position, targetPosition, reelSpeed * Time.deltaTime);
+        if (Vector3.Distance(lure.position, targetPosition) < 0.1f)
+        {
+            currentState = FishingRodState.Idle;
+            lureRb.isKinematic = true;
+            Debug.Log("Reeling stopped");
+        }
+    }
+
+    void UpdateReelingFishState()
+    {
+        Vector3 targetPosition = rodTip.position;
+        if (fishingLogic.currentStrain < fishingLogic.strainThreshold)
+            lure.position = Vector3.MoveTowards(lure.position, targetPosition, fishHookedReelSpeed * Time.deltaTime);
         if (Vector3.Distance(lure.position, targetPosition) < 0.1f)
         {
             currentState = FishingRodState.Idle;
