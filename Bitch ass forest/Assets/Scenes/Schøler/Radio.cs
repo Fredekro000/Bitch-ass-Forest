@@ -13,9 +13,15 @@ public class Radio : MonoBehaviour
     
     const float fadeTime = 1.5f;
     public AudioSource RadioSound;
+
+    public GameObject button; 
+    private Renderer buttonRenderer;
+    public Material red;
+    public Material green;
     
     void Start()
     {
+        buttonRenderer = button.GetComponent<Renderer>();   
         RadioSound = GetComponent<AudioSource>();
         animator = GetComponent<Animator>();
         RadioSound.volume = 0;  // Start with volume at 0
@@ -24,27 +30,33 @@ public class Radio : MonoBehaviour
     }
 
     
-    public void ToggleRadio()
+    public void OnTriggerEnter(Collider other)
     {
-        if (isCooldown) return; 
-
-        if (!RadioState)
+        if (other.gameObject.CompareTag("Hand"))
         {
-            RadioState = true;
-            animator.SetBool("RadioMode", true);
-            animator.Play(RadioOn.name);
-            RadioSound.UnPause();
-            StartCoroutine(FadeIn(RadioSound, fadeTime));
-        }
-        else
-        {
-            RadioState = false;
-            animator.SetBool("RadioMode", false);
-            animator.Play(RadioOff.name);
-            StartCoroutine(FadeOut(RadioSound, fadeTime));
-        }
 
-        StartCoroutine(StartCooldown()); 
+            if (isCooldown) return;
+
+            if (!RadioState)
+            {
+                buttonRenderer.material = green;
+                RadioState = true;
+                animator.SetBool("RadioMode", true);
+                animator.Play(RadioOn.name);
+                RadioSound.UnPause();
+                StartCoroutine(FadeIn(RadioSound, fadeTime));
+            }
+            else
+            {
+                buttonRenderer.material = red;
+                RadioState = false;
+                animator.SetBool("RadioMode", false);
+                animator.Play(RadioOff.name);
+                StartCoroutine(FadeOut(RadioSound, fadeTime));
+            }
+
+            StartCoroutine(StartCooldown());
+        }
     }
 
     IEnumerator FadeIn(AudioSource audioSource, float duration)
