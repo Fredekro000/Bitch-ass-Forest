@@ -292,7 +292,10 @@ MonoBehaviour:
   splashParticlePrefab: {fileID: 979987873}
   splashDelayMin: 2
   splashDelayMax: 5
+  currentState: 0
   splashParticleActive: 0
+  currentStrain: 0
+  strainThreshold: 100
 --- !u!65 &322984532
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -629,7 +632,7 @@ GameObject:
   - component: {fileID: 438564980}
   m_Layer: 0
   m_Name: Cube (2)
-  m_TagString: Untagged
+  m_TagString: Terrain
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -9101,8 +9104,10 @@ MonoBehaviour:
   lineR: {fileID: 716839235}
   castForce: 10
   reelSpeed: 5
+  fishHookedReelSpeed: 3
   segments: 10
   segmentLength: 0.1
+  fishingLogic: {fileID: 322984531}
 --- !u!1 &1899342882
 GameObject:
   m_ObjectHideFlags: 0

@@ -5,6 +5,10 @@ TagManager:
   serializedVersion: 2
   tags:
   - Water
+  - lb_groundTarget
+  - lb_perchTarget
+  - lb_bird
+  - Terrain
   layers:
   - Default
   - TransparentFX

@@ -31,7 +31,7 @@ public class FishingRod : MonoBehaviour
     
     private FishingRodState currentState = FishingRodState.Idle;
     
-    private FishingLogic fishingLogic;
+    public FishingLogic fishingLogic;
     
     // Start is called before the first frame update
     void Start()
@@ -39,7 +39,6 @@ public class FishingRod : MonoBehaviour
         //lineR.positionCount = 2;
         
         lureRb = lure.GetComponent<Rigidbody>();
-        fishingLogic = GetComponent<FishingLogic>();
 
         lineR.positionCount = segments;
 
@@ -147,13 +146,46 @@ public class FishingRod : MonoBehaviour
     void UpdateReelingState()
     {
         Vector3 targetPosition = rodTip.position;
-        lure.position = Vector3.MoveTowards(lure.position, targetPosition, reelSpeed * Time.deltaTime);
+        Vector3 direction = (targetPosition - lure.position).normalized;
+        float distance = Vector3.Distance(lure.position, targetPosition);
+
+        if (distance < 1f)
+        {
+            RaycastHit hit;
+            if (Physics.Raycast(lure.position, direction, out hit, reelSpeed * Time.deltaTime))
+            {
+                if (hit.transform.CompareTag("Terrain"))
+                {
+                    lure.position = Vector3.MoveTowards(lure.position, hit.point, reelSpeed * Time.deltaTime);
+                }
+                else if (hit.transform.CompareTag("Water"))
+                {
+                    lure.position = Vector3.MoveTowards(lure.position, hit.point, reelSpeed * Time.deltaTime);
+                }
+                else
+                {
+                    lure.position = Vector3.MoveTowards(lure.position, targetPosition, reelSpeed * Time.deltaTime);
+                }
+            }
+            else
+            {
+                lure.position = Vector3.MoveTowards(lure.position, targetPosition, reelSpeed * Time.deltaTime);
+            }
+
+            if (distance < 0.1f)
+            {
+                currentState = FishingRodState.Idle;
+                lureRb.isKinematic = true;
+                Debug.Log("Reeling Stopped");
+            }
+        }
+        /*lure.position = Vector3.MoveTowards(lure.position, targetPosition, reelSpeed * Time.deltaTime);
         if (Vector3.Distance(lure.position, targetPosition) < 0.1f)
         {
             currentState = FishingRodState.Idle;
             lureRb.isKinematic = true;
             Debug.Log("Reeling stopped");
-        }
+        }*/
     }
 
     void UpdateReelingFishState()

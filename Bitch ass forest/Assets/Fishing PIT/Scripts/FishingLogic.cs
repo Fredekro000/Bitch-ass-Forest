@@ -36,6 +36,7 @@ public class FishingLogic : MonoBehaviour
 
     public float currentStrain = 0f;
     public float strainThreshold = 100f;
+    private Coroutine fishStruggleCoroutine;
     
     // Start is called before the first frame update
     void Start()
@@ -98,8 +99,20 @@ public class FishingLogic : MonoBehaviour
         {
             TransitionToState(LureState.Idle);
         }
-        
-        
+
+        else
+        {
+            RaycastHit hit;
+            float sphereRadius = 0.1f;
+            float castDistance = 0.1f;
+            if (Physics.SphereCast(lure.position, sphereRadius, Vector3.down, out hit, castDistance))
+            {
+                if (hit.transform.CompareTag("Terrain"))
+                {
+                    lure.position = hit.point;
+                }
+            }
+        }
     }
 
     void UpdateHookingFishState()
@@ -176,13 +189,25 @@ public class FishingLogic : MonoBehaviour
                 AttachFishToLure();
                 TransitionToState(LureState.HookingFish);
             }
+            else if (!isLureOnWater)
+            {
+                Destroy(currentSplashParticle);
+                currentSplashParticle = null;
+                splashParticleActive = false;
+                Debug.Log("Fish gone lure out of water");
+            }
         }
     }
     void TransitionToState(LureState newState)
     {
+        if (currentState == LureState.HookingFish && fishStruggleCoroutine != null)
+        {
+            StopCoroutine(fishStruggleCoroutine);
+        }
+        
         currentState = newState;
         switch (newState)
-        {
+        { 
             case LureState.Idle:
                 isLureOnWater = false;
                 currentStrain = 0f;
@@ -194,6 +219,7 @@ public class FishingLogic : MonoBehaviour
                 break;
             case LureState.HookingFish:
                 StopCoroutine(SplashEffectCoroutine());
+                fishStruggleCoroutine = StartCoroutine(FishStruggleCoroutine());
                 break;
         }
     }
@@ -205,6 +231,7 @@ public class FishingLogic : MonoBehaviour
             yield return new WaitForSeconds(Random.Range(1f, 3f));
             Vector3 struggleDirection = new Vector3(Random.Range(-1f, 1f), 0, Random.Range(-1f, 1f)).normalized;
             float struggleDuration = Random.Range(1f, 2f);
+            Debug.Log("Fish is struggling!");
             StartCoroutine(ApplyStrain(struggleDirection, struggleDuration));
         }
     }
