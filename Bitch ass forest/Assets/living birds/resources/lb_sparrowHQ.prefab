@@ -1681,7 +1681,7 @@ MonoBehaviour:
   song1: {fileID: 0}
   song2: {fileID: 0}
   flyAway1: {fileID: 0}
-  flyAway2: {fileID: 0}
+  flyAway2: {fileID: 8300000, guid: 9dabaef0cd2ecb241956e3db52d3bc8d, type: 3}
   fleeCrows: 1
 --- !u!65 &6500000
 BoxCollider:
