@@ -1,0 +1,390 @@
+fileFormatVersion: 2
+guid: adee6e355e994438cb0a873724b5a74d
+ModelImporter:
+  serializedVersion: 22200
+  internalIDToNameTable: []
+  externalObjects: {}
+  materials:
+    materialImportMode: 2
+    materialName: 0
+    materialSearch: 1
+    materialLocation: 1
+  animations:
+    legacyGenerateAnimations: 4
+    bakeSimulation: 0
+    resampleCurves: 1
+    optimizeGameObjects: 0
+    removeConstantScaleCurves: 0
+    motionNodeName: 
+    rigImportErrors: "Invalid Avatar Rig Configuration. Missing or invalid transform:\n\tRequired
+      human bone 'LeftUpperArm' not found\n"
+    rigImportWarnings: 
+    animationImportErrors: 
+    animationImportWarnings: 
+    animationRetargetingWarnings: 
+    animationDoRetargetingWarnings: 0
+    importAnimatedCustomProperties: 0
+    importConstraints: 0
+    animationCompression: 3
+    animationRotationError: 0.5
+    animationPositionError: 0.5
+    animationScaleError: 0.5
+    animationWrapMode: 0
+    extraExposedTransformPaths: []
+    extraUserProperties: []
+    clipAnimations: []
+    isReadable: 0
+  meshes:
+    lODScreenPercentages: []
+    globalScale: 1
+    meshCompression: 0
+    addColliders: 0
+    useSRGBMaterialColor: 1
+    sortHierarchyByName: 1
+    importPhysicalCameras: 1
+    importVisibility: 1
+    importBlendShapes: 1
+    importCameras: 1
+    importLights: 1
+    nodeNameCollisionStrategy: 1
+    fileIdsGeneration: 2
+    swapUVChannels: 0
+    generateSecondaryUV: 0
+    useFileUnits: 1
+    keepQuads: 0
+    weldVertices: 1
+    bakeAxisConversion: 0
+    preserveHierarchy: 0
+    skinWeightsMode: 0
+    maxBonesPerVertex: 4
+    minBoneWeight: 0.001
+    optimizeBones: 1
+    meshOptimizationFlags: -1
+    indexFormat: 0
+    secondaryUVAngleDistortion: 8
+    secondaryUVAreaDistortion: 15.000001
+    secondaryUVHardAngle: 88
+    secondaryUVMarginMethod: 1
+    secondaryUVMinLightmapResolution: 40
+    secondaryUVMinObjectScale: 1
+    secondaryUVPackMargin: 4
+    useFileScale: 1
+    strictVertexDataChecks: 0
+  tangentSpace:
+    normalSmoothAngle: 60
+    normalImportMode: 0
+    tangentImportMode: 3
+    normalCalculationMode: 4
+    legacyComputeAllNormalsFromSmoothingGroupsWhenMeshHasBlendShapes: 0
+    blendShapeNormalImportMode: 1
+    normalSmoothingSource: 0
+  referencedClips: []
+  importAnimation: 1
+  humanDescription:
+    serializedVersion: 3
+    human: []
+    skeleton:
+    - name: deer(Clone)
+      parentName: 
+      position: {x: 0, y: 0, z: 0}
+      rotation: {x: 0, y: 0, z: 0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Hemi
+      parentName: deer(Clone)
+      position: {x: -17.743542, y: 12.334308, z: 0}
+      rotation: {x: 0.7071068, y: 0, z: 0, w: 0.7071068}
+      scale: {x: 100, y: 100, z: 100}
+    - name: Lamp
+      parentName: deer(Clone)
+      position: {x: -7.4149723, y: 16.090805, z: -2.9002059}
+      rotation: {x: 0.52327543, y: -0.34203398, z: 0.72694236, w: 0.28416628}
+      scale: {x: 100.00001, y: 100, z: 100}
+    - name: Camera
+      parentName: deer(Clone)
+      position: {x: -8.630584, y: 3.733753, z: 5.121495}
+      rotation: {x: 0.018926978, y: 0.85320836, z: -0.04136657, w: 0.51958257}
+      scale: {x: 100, y: 100.00001, z: 100}
+    - name: Armature
+      parentName: deer(Clone)
+      position: {x: -0, y: 2.8380435, z: -0.64775693}
+      rotation: {x: -0.7071068, y: 0, z: -0, w: 0.7071067}
+      scale: {x: 100, y: 100, z: 100}
+    - name: Main
+      parentName: Armature
+      position: {x: 0, y: -0.01450595, z: -0.028380428}
+      rotation: {x: 0.00000011920929, y: 7.299464e-24, z: 1, w: -6.123234e-17}
+      scale: {x: 1, y: 1, z: 1}
+    - name: IK-Backleg_L
+      parentName: Main
+      position: {x: 0.005110813, y: -0.014298301, z: 0.0038935505}
+      rotation: {x: -0.00000006535738, y: 0.7071068, z: -0.7071067, w: -0.00000012295654}
+      scale: {x: 1, y: 1, z: 1}
+    - name: IK-Backleg_L_end
+      parentName: IK-Backleg_L
+      position: {x: -0, y: 0.0038709736, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: IK-Backleg_R
+      parentName: Main
+      position: {x: -0.0051108105, y: -0.014298301, z: 0.003893553}
+      rotation: {x: -0.00000006535738, y: 0.7071068, z: -0.7071067, w: -0.00000012295654}
+      scale: {x: 1, y: 1, z: 1}
+    - name: IK-Backleg_R_end
+      parentName: IK-Backleg_R
+      position: {x: -0, y: 0.0038709736, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: IK-Frontleg_L
+      parentName: Main
+      position: {x: 0.003342238, y: 0.011498574, z: 0.0042632427}
+      rotation: {x: -0.00000016959247, y: 0.7071068, z: -0.7071067, w: 0.000000018721442}
+      scale: {x: 1, y: 1, z: 1}
+    - name: IK-Frontleg_L_end
+      parentName: IK-Frontleg_L
+      position: {x: -0, y: 0.004190352, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: IK-Frontleg_R
+      parentName: Main
+      position: {x: -0.0033422362, y: 0.011498574, z: 0.0042632446}
+      rotation: {x: -0.00000016959247, y: 0.7071068, z: -0.7071067, w: 0.000000018721442}
+      scale: {x: 1, y: 1, z: 1}
+    - name: IK-Frontleg_R_end
+      parentName: IK-Frontleg_R
+      position: {x: -0, y: 0.004190352, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: IK-FrontlegTarget_L
+      parentName: Main
+      position: {x: 0.013483177, y: 0.04645908, z: 0.014171258}
+      rotation: {x: 0, y: 0.00000011920928, z: -0, w: 1}
+      scale: {x: 1, y: 0.99999994, z: 1}
+    - name: IK-FrontlegTarget_L_end
+      parentName: IK-FrontlegTarget_L
+      position: {x: -0, y: 0.0019326495, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: IK-FrontlegTarget_R
+      parentName: Main
+      position: {x: -0.01348317, y: 0.04645908, z: 0.014171265}
+      rotation: {x: 0, y: 0.00000011920928, z: -0, w: 1}
+      scale: {x: 1, y: 0.99999994, z: 1}
+    - name: IK-FrontlegTarget_R_end
+      parentName: IK-FrontlegTarget_R
+      position: {x: -0, y: 0.0019326495, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: IK-BacklegTarget_R
+      parentName: Main
+      position: {x: -0.0031175455, y: -0.036057975, z: 0.016612967}
+      rotation: {x: 0.00000011920929, y: 7.299464e-24, z: 1, w: -6.123234e-17}
+      scale: {x: 1, y: 1, z: 1}
+    - name: IK-BacklegTarget_R_end
+      parentName: IK-BacklegTarget_R
+      position: {x: -0, y: 0.0021397162, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: IK-BacklegTarget_L
+      parentName: Main
+      position: {x: 0.0031175532, y: -0.036057975, z: 0.016612966}
+      rotation: {x: 0.00000011920929, y: 7.299464e-24, z: 1, w: -6.123234e-17}
+      scale: {x: 1, y: 1, z: 1}
+    - name: IK-BacklegTarget_L_end
+      parentName: IK-BacklegTarget_L
+      position: {x: -0, y: 0.0021397162, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: IK-Head
+      parentName: Main
+      position: {x: 0.000000011101094, y: 0.027686425, z: 0.0468735}
+      rotation: {x: 0.0000001459918, y: 0.7911553, z: 0.6116154, w: 0.00000002886762}
+      scale: {x: 1, y: 1, z: 1}
+    - name: IK-Head_end
+      parentName: IK-Head
+      position: {x: -0, y: 0.0064201104, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Hip
+      parentName: Main
+      position: {x: 0.000000008367734, y: -0.014838451, z: 0.03509682}
+      rotation: {x: 0.000000057350668, y: 0.9691207, z: 0.24658698, w: 0.00000015199343}
+      scale: {x: 1, y: 1.0000002, z: 1}
+    - name: Backleg_L
+      parentName: Hip
+      position: {x: -0.004838916, y: 0.0044595012, z: 0.0060527613}
+      rotation: {x: 0.9135314, y: -0.009206242, z: 0.015850117, w: 0.40635508}
+      scale: {x: 1, y: 1.0000002, z: 0.99999994}
+    - name: Backleg_L.001
+      parentName: Backleg_L
+      position: {x: -2.7939676e-10, y: 0.018390302, z: -0.0000000019557773}
+      rotation: {x: -0.20082524, y: 0.008657868, z: 0.0015549909, w: 0.97958755}
+      scale: {x: 0.99999994, y: 1, z: 1}
+    - name: Backleg_L.002
+      parentName: Backleg_L.001
+      position: {x: 8.381903e-10, y: 0.012202319, z: 3.5390257e-10}
+      rotation: {x: -0.22004761, y: 0.014417048, z: 0.012140061, w: 0.975307}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Backleg_L.002_end
+      parentName: Backleg_L.002
+      position: {x: -0, y: 0.004734385, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Backleg_R
+      parentName: Hip
+      position: {x: 0.0048389207, y: 0.004459502, z: 0.006052757}
+      rotation: {x: 0.91353136, y: 0.009206679, z: -0.015850244, w: 0.4063552}
+      scale: {x: 1.0000002, y: 1.0000001, z: 0.99999964}
+    - name: Backleg_R.001
+      parentName: Backleg_R
+      position: {x: 8.381903e-10, y: 0.018390302, z: 2.2351741e-10}
+      rotation: {x: -0.2008251, y: -0.008657877, z: -0.0015549851, w: 0.9795876}
+      scale: {x: 0.9999999, y: 0.9999999, z: 1}
+    - name: Backleg_R.002
+      parentName: Backleg_R.001
+      position: {x: -3.7252902e-11, y: 0.012202316, z: 4.2840836e-10}
+      rotation: {x: -0.22004758, y: -0.014417058, z: -0.012140117, w: 0.9753071}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Backleg_R.002_end
+      parentName: Backleg_R.002
+      position: {x: -0, y: 0.004734385, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Backbone
+      parentName: Hip
+      position: {x: -2.6960041e-17, y: 0.0068052844, z: 7.45058e-10}
+      rotation: {x: -0.31439728, y: 0.0000004517059, z: 0.00000005968324, w: 0.9492915}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Backbone.001
+      parentName: Backbone
+      position: {x: -4.1744386e-16, y: 0.01758908, z: 2.9802322e-10}
+      rotation: {x: 0.11187071, y: 0.00000011011836, z: 0.000000083829605, w: 0.9937228}
+      scale: {x: 1, y: 0.99999994, z: 1}
+    - name: Backbone.002
+      parentName: Backbone.001
+      position: {x: -1.0957901e-15, y: 0.0065912846, z: -8.9406965e-10}
+      rotation: {x: -0.6160188, y: -0.00000005305634, z: -0.0000004942328, w: 0.78773147}
+      scale: {x: 1, y: 1, z: 1.0000001}
+    - name: Head
+      parentName: Backbone.002
+      position: {x: 2.216005e-15, y: 0.020814711, z: 0.0000000011920929}
+      rotation: {x: -0.2267394, y: -0.0000005454073, z: -0.000000042893394, w: 0.9739555}
+      scale: {x: 1, y: 1, z: 0.9999999}
+    - name: Head_L.001
+      parentName: Head
+      position: {x: -0.0029905855, y: 0.003369922, z: -0.0010049165}
+      rotation: {x: -0.13925745, y: 0.8903719, z: 0.06998024, w: 0.42772418}
+      scale: {x: 1, y: 0.9999999, z: 0.99999994}
+    - name: Head_L.001_end
+      parentName: Head_L.001
+      position: {x: -0, y: 0.0060211318, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Head_R.001
+      parentName: Head
+      position: {x: 0.0029905844, y: 0.003369922, z: -0.0010049187}
+      rotation: {x: 0.1392574, y: 0.89037174, z: 0.069980204, w: -0.42772454}
+      scale: {x: 1, y: 0.99999994, z: 1}
+    - name: Head_R.001_end
+      parentName: Head_R.001
+      position: {x: -0, y: 0.0060211318, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Frontleg_L
+      parentName: Backbone.001
+      position: {x: -0.0044425856, y: 0.0043039946, z: 0.00080266234}
+      rotation: {x: 0.39364982, y: -0.29412052, z: 0.53001434, w: 0.6910989}
+      scale: {x: 1, y: 0.99999964, z: 1.0000004}
+    - name: Frontleg_L.001
+      parentName: Frontleg_L
+      position: {x: -7.8231094e-10, y: 0.01582672, z: -0.0000000011734664}
+      rotation: {x: 0.050823446, y: 0.014390054, z: 0.00061116304, w: 0.9986038}
+      scale: {x: 1, y: 0.9999999, z: 0.9999999}
+    - name: Frontleg_L.002
+      parentName: Frontleg_L.001
+      position: {x: -2.9802322e-10, y: 0.011400326, z: -0.0000000012665987}
+      rotation: {x: -0.32212755, y: -3.6891026e-10, z: 0.0000000019675217, w: 0.9466963}
+      scale: {x: 0.99999994, y: 0.99999994, z: 0.99999994}
+    - name: Frontleg_L.002_end
+      parentName: Frontleg_L.002
+      position: {x: -0, y: 0.004988066, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Frontleg_R
+      parentName: Backbone.001
+      position: {x: 0.0044425842, y: 0.0043039946, z: 0.0008026692}
+      rotation: {x: 0.3936486, y: 0.29411852, z: -0.530015, w: 0.6911}
+      scale: {x: 1.0000001, y: 1.0000002, z: 0.99999976}
+    - name: Frontleg_R.001
+      parentName: Frontleg_R
+      position: {x: 1.4901161e-10, y: 0.015826719, z: 0.0000000026915221}
+      rotation: {x: 0.050829135, y: -0.014390057, z: -0.0006112133, w: 0.9986035}
+      scale: {x: 1, y: 1, z: 0.9999999}
+    - name: Frontleg_R.002
+      parentName: Frontleg_R.001
+      position: {x: 2.2351741e-10, y: 0.01140033, z: 6.3329936e-10}
+      rotation: {x: -0.3221276, y: 0.0000000026438571, z: -0.0000000025823719, w: 0.9466963}
+      scale: {x: 1, y: 0.99999994, z: 0.99999994}
+    - name: Frontleg_R.002_end
+      parentName: Frontleg_R.002
+      position: {x: -0, y: 0.004988066, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: IK-Hip
+      parentName: Main
+      position: {x: 0.000000008367734, y: -0.014838451, z: 0.03509682}
+      rotation: {x: 0.00000005735069, y: 0.9691207, z: 0.246587, w: 0.00000015199345}
+      scale: {x: 1, y: 1.0000002, z: 1}
+    - name: IK-Hip_end
+      parentName: IK-Hip
+      position: {x: -0, y: 0.0068052844, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: IK-Backbone
+      parentName: Main
+      position: {x: 0.000000008136885, y: 0.008205613, z: 0.03409323}
+      rotation: {x: 0.000000066200826, y: 0.9726756, z: -0.23216836, w: -0.00000056339644}
+      scale: {x: 1, y: 1.0000002, z: 0.99999994}
+    - name: IK-Backbone_end
+      parentName: IK-Backbone
+      position: {x: -0, y: 0.006591284, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Head
+      parentName: deer(Clone)
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: -0.7071068, y: 0, z: -0, w: 0.7071067}
+      scale: {x: 100, y: 100, z: 100}
+    - name: Eyes
+      parentName: deer(Clone)
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: -0.7071068, y: 0, z: -0, w: 0.7071067}
+      scale: {x: 100, y: 100, z: 100}
+    - name: Body
+      parentName: deer(Clone)
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: -0.7071068, y: 0, z: -0, w: 0.7071067}
+      scale: {x: 100, y: 100, z: 100}
+    armTwist: 0.5
+    foreArmTwist: 0.5
+    upperLegTwist: 0.5
+    legTwist: 0.5
+    armStretch: 0.05
+    legStretch: 0.05
+    feetSpacing: 0
+    globalScale: 1
+    rootMotionBoneName: 
+    hasTranslationDoF: 0
+    hasExtraRoot: 1
+    skeletonHasParents: 1
+  lastHumanDescriptionAvatarSource: {instanceID: 0}
+  autoGenerateAvatarMappingIfUnspecified: 1
+  animationType: 2
+  humanoidOversampling: 1
+  avatarSetup: 1
+  addHumanoidExtraRootOnlyWhenUsingAvatar: 1
+  importBlendShapeDeformPercent: 1
+  remapMaterialsIfMaterialImportModeIsNone: 0
+  additionalBone: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
