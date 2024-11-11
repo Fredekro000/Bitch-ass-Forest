@@ -9,7 +9,8 @@ public enum LureState
 {
     Idle,
     InWater,
-    HookingFish
+    HookingFish,
+    
 }
 
 public class FishingLogic : MonoBehaviour
@@ -17,6 +18,8 @@ public class FishingLogic : MonoBehaviour
     public Transform lure;
 
     public Transform fish;
+    public GameObject fishPrefab;
+    private Animator fishAnimator;
     public float attachDistance = 0.01f;
 
     public bool isFishAttached = false;
@@ -37,6 +40,9 @@ public class FishingLogic : MonoBehaviour
     public float currentStrain = 0f;
     public float strainThreshold = 100f;
     private Coroutine fishStruggleCoroutine;
+    public FishingRod fishingRod;
+
+    public bool isFishStruggling = false;
     
     // Start is called before the first frame update
     void Start()
@@ -69,6 +75,11 @@ public class FishingLogic : MonoBehaviour
         {
             MoveSplashParticleTowardsLure();
         }
+
+        if (Input.GetKeyDown(KeyCode.F) && fishingRod.currentState == FishingRodState.Idle)
+        {
+            RemoveFishFromLure();
+        }
         /*
         if (isLureOnWater)
         {
@@ -79,9 +90,26 @@ public class FishingLogic : MonoBehaviour
         {
             AttachFishToLure();
         }*/
+        
+        // Increase strain when reeling in
+        /*if (fishingRod != null && fishingRod.currentState == FishingRodState.ReelingFish)
+        {
+            IncreaseStrain();
+        }*/
     }
 
+    /*void IncreaseStrain()
+    {
+        // Increase strain based on some factor, e.g., time
+        currentStrain += Time.deltaTime * 10f; // Adjust the multiplier as needed
 
+        if (currentStrain > strainThreshold)
+        {
+            Debug.Log("Line Snapped!");
+            TransitionToState(LureState.Idle);
+        }
+    }*/
+    
     void UpdateIdleState()
     {
         Debug.Log("Idle State");
@@ -89,31 +117,43 @@ public class FishingLogic : MonoBehaviour
         {
             TransitionToState(LureState.InWater);
         }
+        
+        if (isFishAttached && fishAnimator != null)
+        {
+            fishAnimator.SetBool("IsIdle", true);
+        }
+        //StopCoroutine(FishStruggleCoroutine());
     }
 
     void UpdateInWaterState()
     {
         Debug.Log("Water State");
-        //StickLureToWater();
         if (!IsLureOnWater())
         {
             TransitionToState(LureState.Idle);
         }
-
         else
         {
             RaycastHit hit;
-            float sphereRadius = 0.1f;
-            float castDistance = 0.1f;
+            float sphereRadius = 0.01f;
+            float castDistance = 0.01f;
             if (Physics.SphereCast(lure.position, sphereRadius, Vector3.down, out hit, castDistance))
             {
-                if (hit.transform.CompareTag("Terrain"))
+                if (hit.transform.CompareTag("Water"))
+                {
+                    // Set the lure's y-position to the water surface y-position
+                    Vector3 waterSurfacePosition = hit.point;
+                    waterSurfacePosition.y = hit.point.y; // Ensure y-position matches the water surface
+                    lure.position = new Vector3(lure.position.x, waterSurfacePosition.y, lure.position.z);
+                }
+                else if (hit.transform.CompareTag("Terrain"))
                 {
                     lure.position = hit.point;
                 }
             }
         }
     }
+
 
     void UpdateHookingFishState()
     {
@@ -123,7 +163,7 @@ public class FishingLogic : MonoBehaviour
     bool IsLureOnWater()
     {
         RaycastHit hit;
-        float sphereRadius = 0.1f;
+        float sphereRadius = 0.2f;
         float castDistance = 0.1f;
         
         Debug.DrawRay(lure.position, Vector3.down * castDistance, Color.red);
@@ -146,11 +186,26 @@ public class FishingLogic : MonoBehaviour
 
     void AttachFishToLure()
     {
-        isFishAttached = true;
-        fish.position = lure.position;
-        fish.SetParent(lure);
-        fish.GetComponent<Rigidbody>().isKinematic = true;
+        if (fishPrefab != null)
+        {
+            GameObject newFish = Instantiate(fishPrefab, lure.position, Quaternion.identity);
+            isFishAttached = true;
+            newFish.transform.SetParent(lure);
+            newFish.GetComponent<Rigidbody>().isKinematic = true;
+            fish = newFish.transform; // Update the fish reference to the new fish
+            
+            fishAnimator = newFish.GetComponent<Animator>();
+            if (fishAnimator != null)
+            {
+                fishAnimator.SetBool("isResting", false);
+            }
+        }
+        else
+        {
+            Debug.LogError("Fish prefab is not assigned.");
+        }
     }
+
 
     void StickLureToWater()
     {
@@ -228,33 +283,66 @@ public class FishingLogic : MonoBehaviour
     {
         while (currentState == LureState.HookingFish)
         {
-            yield return new WaitForSeconds(Random.Range(1f, 3f));
+            yield return new WaitForSeconds(Random.Range(3f, 5f));
             Vector3 struggleDirection = new Vector3(Random.Range(-1f, 1f), 0, Random.Range(-1f, 1f)).normalized;
             float struggleDuration = Random.Range(1f, 2f);
             Debug.Log("Fish is struggling!");
+
+            isFishStruggling = true;
+            
             StartCoroutine(ApplyStrain(struggleDirection, struggleDuration));
         }
     }
 
-    IEnumerator ApplyStrain(Vector3 direction, float duration)
+    public IEnumerator ApplyStrain(Vector3 direction, float duration)
     {
         float elapsedTime = 0f;
         while (elapsedTime < duration)
         {
             if (currentState != LureState.HookingFish) yield break;
-            
-            lure.position += direction * Time.deltaTime;
-            currentStrain += direction.magnitude * Time.deltaTime;
 
-            if (currentStrain > strainThreshold)
+            // Apply strain based on the player's reeling action
+            if (fishingRod.currentState == FishingRodState.ReelingFish && isFishStruggling)
             {
-                Debug.Log("Line Snapped!");
-                TransitionToState(LureState.Idle);
-                yield break;
+                currentStrain += Time.deltaTime * 10f;
+                Debug.Log("Applying Strain: " + currentStrain);
+                if (currentStrain > strainThreshold)
+                {
+                    Debug.Log("Line Snapped!");
+                    currentState = LureState.InWater;
+                    TransitionToState(LureState.Idle);
+                    yield break;
+                }
             }
-            
+
+            lure.position += direction * Time.deltaTime;
             elapsedTime += Time.deltaTime;
             yield return null;
         }
+
+        isFishStruggling = false;
     }
+    
+    public void StopFishStruggle()
+    {
+        if (fishStruggleCoroutine != null)
+        {
+            StopCoroutine(fishStruggleCoroutine);
+            fishStruggleCoroutine = null;
+            isFishStruggling = false;
+        }
+    }
+    
+    public void RemoveFishFromLure()
+    {
+        if (isFishAttached)
+        {
+            isFishAttached = false;
+            fish.SetParent(null);
+            fish.GetComponent<Rigidbody>().isKinematic = false;
+            currentState = LureState.Idle;
+            Debug.Log("Fish removed from lure.");
+        }
+    }
+
 }

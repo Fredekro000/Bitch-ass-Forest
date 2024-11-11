@@ -9,54 +9,36 @@ public enum FishingRodState
     Reeling,
     ReelingFish
 }
+
 public class FishingRod : MonoBehaviour
 {
     public Transform rodTip;
     public Transform lure;
     public LineRenderer lineR;
-    //public Transform fishingRod;
 
     private Rigidbody lureRb;
     public float castForce = 10f;
     public float reelSpeed = 5f;
     public float fishHookedReelSpeed = 3f;
 
-    //public bool isCasting = false;
-    //public bool isReeling = false;
-    //private Vector3 lureStartPosition;
-
     public int segments = 10;
-    public float segmentLength = 0.1f;
     private Vector3[] points;
-    
-    private FishingRodState currentState = FishingRodState.Idle;
-    
+
+    public FishingRodState currentState = FishingRodState.Idle;
+
     public FishingLogic fishingLogic;
-    
-    // Start is called before the first frame update
+
     void Start()
     {
-        //lineR.positionCount = 2;
-        
         lureRb = lure.GetComponent<Rigidbody>();
-
         lineR.positionCount = segments;
-
-        //lureStartPosition = lure.position;
-        
         points = new Vector3[segments];
-        for (int i = 0; i < segments; i++)
-        {
-            points[i] = Vector3.Lerp(rodTip.position, lure.position, (float)i / (segments - 1));
-        }
-
+        
+        fishingLogic.fishingRod = this;
     }
 
-    // Update is called once per frame
     void Update()
     {
-        //UpdateLineRenderer();
-        
         switch (currentState)
         {
             case FishingRodState.Idle:
@@ -75,19 +57,16 @@ public class FishingRod : MonoBehaviour
 
         if (Input.GetButtonDown("Fire1") && currentState == FishingRodState.Idle && fishingLogic.currentState == LureState.Idle)
         {
-            Debug.Log("Fire1 pressed");
             CastLure();
         }
-        
+
         if (Input.GetButtonUp("Fire1") && currentState == FishingRodState.Casting)
         {
-            Debug.Log("Fire1 released");
             StopCasting();
         }
 
         if (Input.GetButtonDown("Fire2") && currentState != FishingRodState.Reeling)
         {
-            Debug.Log("Fire2 pressed");
             StartReeling();
         }
 
@@ -95,44 +74,33 @@ public class FishingRod : MonoBehaviour
         {
             currentState = FishingRodState.Casting;
         }
-
-        if (Input.GetButtonDown("Fire2") && currentState == FishingRodState.ReelingFish &&
-            fishingLogic.currentState == LureState.HookingFish)
+        if (Input.GetButtonDown("Fire2") && currentState != FishingRodState.ReelingFish)
         {
-            
+            StartReelingFish();
         }
 
-        if (Input.GetButtonUp("Fire2") && currentState == FishingRodState.ReelingFish &&
-            fishingLogic.currentState == LureState.HookingFish)
+        if (Input.GetButtonUp("Fire2") && currentState == FishingRodState.ReelingFish)
         {
-            
+            currentState = FishingRodState.Casting;
         }
 
-        /*if (isReeling)
-        {
-            ReelInLure();
-        }*/
+        UpdateLineRenderer();
+    }
 
-        lineR.SetPositions(points);
-        
+    void UpdateLineRenderer()
+    {
         points[0] = rodTip.position;
         points[segments - 1] = lure.position;
 
         for (int i = 1; i < segments - 1; i++)
         {
-            Vector3 velocity = points[i] - points[i - 1];
-            points[i] += velocity * Time.deltaTime;
-            points[i] = Vector3.Lerp(points[i], points[i + 1], 0.5f);
+            float t = (float)i / (segments - 1);
+            points[i] = Vector3.Lerp(rodTip.position, lure.position, t);
         }
 
+        lineR.SetPositions(points);
     }
 
-    /*void UpdateLineRenderer()
-    {
-        lineR.SetPosition(0, rodTip.position);
-        lineR.SetPosition(1, lure.position);
-    }*/
-    
     void UpdateIdleState()
     {
         lure.position = rodTip.position;
@@ -146,100 +114,62 @@ public class FishingRod : MonoBehaviour
     void UpdateReelingState()
     {
         Vector3 targetPosition = rodTip.position;
+        targetPosition.y = lure.position.y; // Lock the y-axis
         Vector3 direction = (targetPosition - lure.position).normalized;
         float distance = Vector3.Distance(lure.position, targetPosition);
 
-        if (distance < 1f)
+        if (distance > 0.1f)
         {
-            RaycastHit hit;
-            if (Physics.Raycast(lure.position, direction, out hit, reelSpeed * Time.deltaTime))
-            {
-                if (hit.transform.CompareTag("Terrain"))
-                {
-                    lure.position = Vector3.MoveTowards(lure.position, hit.point, reelSpeed * Time.deltaTime);
-                }
-                else if (hit.transform.CompareTag("Water"))
-                {
-                    lure.position = Vector3.MoveTowards(lure.position, hit.point, reelSpeed * Time.deltaTime);
-                }
-                else
-                {
-                    lure.position = Vector3.MoveTowards(lure.position, targetPosition, reelSpeed * Time.deltaTime);
-                }
-            }
-            else
-            {
-                lure.position = Vector3.MoveTowards(lure.position, targetPosition, reelSpeed * Time.deltaTime);
-            }
-
-            if (distance < 0.1f)
-            {
-                currentState = FishingRodState.Idle;
-                lureRb.isKinematic = true;
-                Debug.Log("Reeling Stopped");
-            }
+            lureRb.MovePosition(Vector3.MoveTowards(lure.position, targetPosition, reelSpeed * Time.deltaTime));
         }
-        /*lure.position = Vector3.MoveTowards(lure.position, targetPosition, reelSpeed * Time.deltaTime);
-        if (Vector3.Distance(lure.position, targetPosition) < 0.1f)
+        else
         {
             currentState = FishingRodState.Idle;
             lureRb.isKinematic = true;
-            Debug.Log("Reeling stopped");
-        }*/
+        }
     }
+
 
     void UpdateReelingFishState()
     {
         Vector3 targetPosition = rodTip.position;
-        if (fishingLogic.currentStrain < fishingLogic.strainThreshold)
-            lure.position = Vector3.MoveTowards(lure.position, targetPosition, fishHookedReelSpeed * Time.deltaTime);
-        if (Vector3.Distance(lure.position, targetPosition) < 0.1f)
+        targetPosition.y = lure.position.y;
+        float distance = Vector3.Distance(lure.position, targetPosition);
+
+        if (distance > 0.1f && fishingLogic.currentStrain < fishingLogic.strainThreshold)
+        {
+            lureRb.MovePosition(Vector3.MoveTowards(lure.position, targetPosition, fishHookedReelSpeed * Time.deltaTime));
+        }
+
+        else
         {
             currentState = FishingRodState.Idle;
             lureRb.isKinematic = true;
-            Debug.Log("Reeling stopped");
+            fishingLogic.StopFishStruggle();
         }
     }
-    
+
+
+
     void CastLure()
     {
         currentState = FishingRodState.Casting;
-        //isCasting = true;
         lureRb.isKinematic = false;
-        Debug.Log("Casting started");
         lureRb.AddForce(rodTip.forward * castForce, ForceMode.Impulse);
-        //Invoke("StopCasting", 1f); // Stop casting after 1 second
     }
 
     void StopCasting()
     {
         currentState = FishingRodState.Casting;
-        //isCasting = false;
-        print("Casting stopped");
     }
 
     void StartReeling()
     {
         currentState = FishingRodState.Reeling;
-        //isReeling = true;
-        //lureRb.isKinematic = true;
-        print("reeling started");
     }
 
-    /*void ReelInLure()
+    void StartReelingFish()
     {
-        Vector3 targetPosition = rodTip.position;
-        lure.position = Vector3.MoveTowards(lure.position, targetPosition, reelSpeed * Time.deltaTime);
-        if (Vector3.Distance(lure.position, targetPosition) < 0.1f)
-        {
-            isReeling = false;
-            print("reeling stopped");
-        }
-    }*/
-        
-        //this.lureRb.isKinematic = false;
-        //Rigidbody lureRb = lure.GetComponent<Rigidbody>();
-        
-        
-    
+        currentState = FishingRodState.ReelingFish;
+    }
 }

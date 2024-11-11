@@ -285,6 +285,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   lure: {fileID: 322984530}
   fish: {fileID: 495004224}
+  fishPrefab: {fileID: 4577086757721487007, guid: 30b405da747a7584b8c92e8a3f80971d,
+    type: 3}
   attachDistance: 0.01
   isFishAttached: 0
   glideSpeed: 0.5
@@ -296,6 +298,8 @@ MonoBehaviour:
   splashParticleActive: 0
   currentStrain: 0
   strainThreshold: 100
+  fishingRod: {fileID: 1869444162}
+  isFishStruggling: 0
 --- !u!65 &322984532
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -7411,7 +7415,7 @@ MeshCollider:
     serializedVersion: 2
     m_Bits: 0
   m_LayerOverridePriority: 0
-  m_IsTrigger: 1
+  m_IsTrigger: 0
   m_ProvidesContacts: 0
   m_Enabled: 0
   serializedVersion: 5
@@ -7502,8 +7506,8 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 10.000001, y: 0.2, z: 10.000001}
-  m_Center: {x: 0, y: -0.1, z: 0}
+  m_Size: {x: 10.000001, y: 0, z: 10.000001}
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &1169502370
 GameObject:
   m_ObjectHideFlags: 0
@@ -9106,7 +9110,7 @@ MonoBehaviour:
   reelSpeed: 5
   fishHookedReelSpeed: 3
   segments: 10
-  segmentLength: 0.1
+  currentState: 0
   fishingLogic: {fileID: 322984531}
 --- !u!1 &1899342882
 GameObject:
