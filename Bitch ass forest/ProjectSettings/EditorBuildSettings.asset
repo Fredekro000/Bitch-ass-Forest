@@ -8,9 +8,12 @@ EditorBuildSettings:
   - enabled: 0
     path: Assets/Scenes/SampleScene.unity
     guid: 99c9720ab356a0642a771bea13969a05
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/N/Niklas scene.unity
     guid: 2449fe979c6d7204bac360c3732858db
+  - enabled: 1
+    path: Assets/Scenes/N/Niklas scene 1.unity
+    guid: 047cef84aaffdcb4ab810143be233187
   m_configObjects:
     Unity.XR.Oculus.Settings: {fileID: 11400000, guid: 9573d89fc48e71c469eb913e9365838e,
       type: 2}
