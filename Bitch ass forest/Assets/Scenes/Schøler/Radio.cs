@@ -1,61 +1,102 @@
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.XR.Interaction.Toolkit;
 
 public class Radio : MonoBehaviour
 {
-    Animator animator;
     public AnimationClip RadioOn; 
     public AnimationClip RadioOff;
     bool RadioState = false;
     bool isCooldown = false;
-    const float cooldownDuration = 2f;   
     
     const float fadeTime = 1.5f;
-    public AudioSource RadioSound;
-
-    public GameObject button; 
-    private Renderer buttonRenderer;
     public Material red;
     public Material green;
+    public GameObject button;
+   
+    public List<AudioClip> rustleSounds = new List<AudioClip>();
     
-    void Start()
-    {
-        buttonRenderer = button.GetComponent<Renderer>();   
-        RadioSound = GetComponent<AudioSource>();
-        animator = GetComponent<Animator>();
-        RadioSound.volume = 0;  // Start with volume at 0
-        RadioSound.Play();
-        RadioSound.Pause();     // Start paused
-    }
+    void Start() { }
 
-    
     public void OnTriggerEnter(Collider other)
     {
-        if (other.gameObject.CompareTag("Hand"))
+        if (other.gameObject.CompareTag("Radio"))
         {
+            // Get the components from the button object (assumes the button itself has these components)
+            AudioSource radioAudioSource = other.GetComponent<AudioSource>();
+            Animator radioAnimator = other.GetComponent<Animator>();
+            Renderer buttonRenderer = other.GetComponent<Renderer>();
 
+            // Ensure audio source is ready to play and starts playing only if it hasn't already been triggered
+            if (radioAudioSource != null && !radioAudioSource.isPlaying)
+            {
+                radioAudioSource.volume = 0;
+                radioAudioSource.Play(); // Start the audio if it's the first time being activated
+            }
+            
             if (isCooldown) return;
 
+            // Toggle radio state
             if (!RadioState)
             {
-                buttonRenderer.material = green;
+                if (buttonRenderer != null) buttonRenderer.material = green;
                 RadioState = true;
-                animator.SetBool("RadioMode", true);
-                animator.Play(RadioOn.name);
-                RadioSound.UnPause();
-                StartCoroutine(FadeIn(RadioSound, fadeTime));
+                
+                if (radioAnimator != null)
+                {
+                    radioAnimator.SetBool("RadioMode", true);
+                    radioAnimator.Play(RadioOn.name);
+                }
+
+                if (radioAudioSource != null)
+                {
+                    radioAudioSource.UnPause(); // Resume audio if it's paused
+                    StartCoroutine(FadeIn(radioAudioSource, fadeTime));
+                }
+                if (button != null)
+                {
+                    Renderer otherRenderer = button.GetComponent<Renderer>();
+                    if (otherRenderer != null) otherRenderer.material = green;
+                }
             }
             else
             {
-                buttonRenderer.material = red;
+                if (buttonRenderer != null) buttonRenderer.material = red;
                 RadioState = false;
-                animator.SetBool("RadioMode", false);
-                animator.Play(RadioOff.name);
-                StartCoroutine(FadeOut(RadioSound, fadeTime));
+                
+                if (radioAnimator != null)
+                {
+                    radioAnimator.SetBool("RadioMode", false);
+                    radioAnimator.Play(RadioOff.name);
+                }
+                if (button != null)
+                {
+                    Renderer otherRenderer = button.GetComponent<Renderer>();
+                    if (otherRenderer != null) otherRenderer.material = red;
+                }
+                if (radioAudioSource != null)
+                {
+                    StartCoroutine(FadeOut(radioAudioSource, fadeTime));
+                }
             }
 
-            StartCoroutine(StartCooldown());
+            StartCoroutine(StartCooldown(2f));
+        } 
+        else if (other.gameObject.CompareTag("Foliage"))
+        {
+            if (isCooldown) return;
+
+            // Get AudioSource from the foliage and play a random rustle sound
+            AudioSource foliageAudioSource = other.GetComponent<AudioSource>();
+            if (foliageAudioSource != null && rustleSounds.Count > 0)
+            {
+                int randomIndex = Random.Range(0, rustleSounds.Count);
+                foliageAudioSource.clip = rustleSounds[randomIndex];
+                foliageAudioSource.Play();
+            }
+
+            StartCoroutine(StartCooldown(0.5f));
         }
     }
 
@@ -87,9 +128,9 @@ public class Radio : MonoBehaviour
         audioSource.Pause();
     }
 
-    IEnumerator StartCooldown()
+    IEnumerator StartCooldown(float cooldownDuration)
     {
-        isCooldown = true; 
+        isCooldown = true;
         yield return new WaitForSeconds(cooldownDuration);
         isCooldown = false; 
     }
