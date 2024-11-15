@@ -352,6 +352,8 @@ MonoBehaviour:
   - {fileID: 8300000, guid: 86a5506f378b6294ea6473e09dd2687d, type: 3}
   - {fileID: 8300000, guid: 838030fe565e3f8439163925e001c679, type: 3}
   - {fileID: 8300000, guid: db66293b6047efa47844b690551c6ed3, type: 3}
+  movementThreshold: 0.1
+  movementCheckInterval: 0.5
 --- !u!54 &8858096113224695722
 Rigidbody:
   m_ObjectHideFlags: 0

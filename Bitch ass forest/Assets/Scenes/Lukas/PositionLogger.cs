@@ -1,45 +1,82 @@
-using System.IO;
 using UnityEngine;
+using System.Collections;
+using System.IO;
+using System.Globalization;
 
 public class PositionLogger : MonoBehaviour
 {
+    // Use persistent data path for file storage
     private string filePath;
-    private Transform playerTransform;
-    private float timer = 0f; // Timer to track elapsed time
-    private float logInterval = 2f; // Interval in seconds
+
+    private float logInterval = 2f;  // Time in seconds between each log
+    private float timeSinceLastLog = 0f;
 
     void Start()
     {
-        // Define the file path for logging
-        filePath = Application.persistentDataPath + "/player_positions.csv";
+        // Ensure the file path is constructed correctly
+        filePath = Path.Combine(Application.persistentDataPath, "player_positions.csv");
 
-        // Create the file and write the header
-        File.WriteAllText(filePath, "Time,PositionX,PositionZ\n");
+        // Log the file path to debug
+        Debug.Log("File Path: " + filePath);
 
-        // Reference the player's transform (camera or XR rig)
-        playerTransform = Camera.main.transform; // Adjust if you're using a custom player object
+        // Check if the file exists and create a new unique file if needed
+        filePath = GetUniqueFilePath(filePath);
+
+        // Write the header only once at the start
+        WriteToCSV("PositionX,PositionZ");
     }
 
     void Update()
     {
-        // Increment the timer
-        timer += Time.deltaTime;
+        timeSinceLastLog += Time.deltaTime;
 
-        // Check if the interval has elapsed
-        if (timer >= logInterval)
+        if (timeSinceLastLog >= logInterval)
         {
+            // Log the player's position (X and Z)
+            float playerX = transform.position.x;
+            float playerZ = transform.position.z;
+
+            // Prepare the data as a string with a dot as the decimal separator
+            string logEntry = string.Format(CultureInfo.InvariantCulture, "{0:F6},{1:F6}", playerX, playerZ);
+
+            // Write the data to the CSV file
+            WriteToCSV(logEntry);
+
             // Reset the timer
-            timer = 0f;
-
-            // Log the player's position
-            Vector3 position = playerTransform.position;
-            string log = $"{Time.time},{position.x},{position.z}\n";
-
-            // Write the log to the file
-            File.AppendAllText(filePath, log);
-
-            // Optional: Log to the console for debugging
-            Debug.Log($"Logged position: {log}");
+            timeSinceLastLog = 0f;
         }
+    }
+
+    void WriteToCSV(string data)
+    {
+        // Log the file path to check if it's empty or incorrect
+        Debug.Log("Writing to: " + filePath);
+
+        // Check if the file exists. If not, create it
+        if (!File.Exists(filePath))
+        {
+            File.WriteAllText(filePath, data + "\n");  // Write the header line
+        }
+        else
+        {
+            File.AppendAllText(filePath, data + "\n");  // Append data
+        }
+    }
+
+    string GetUniqueFilePath(string baseFilePath)
+    {
+        // If file exists, generate a new file name with timestamp
+        if (File.Exists(baseFilePath))
+        {
+            string timestamp = System.DateTime.Now.ToString("yyyyMMdd_HHmmss");
+            string directory = Path.GetDirectoryName(baseFilePath);
+            string fileNameWithoutExtension = Path.GetFileNameWithoutExtension(baseFilePath);
+            string extension = Path.GetExtension(baseFilePath);
+
+            // Create a new file path with timestamp
+            baseFilePath = Path.Combine(directory, $"{fileNameWithoutExtension}_{timestamp}{extension}");
+        }
+
+        return baseFilePath;
     }
 }

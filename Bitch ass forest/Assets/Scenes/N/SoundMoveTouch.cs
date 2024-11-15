@@ -4,11 +4,13 @@ using System.Collections.Generic;
 public class PlayRandomSoundOnMove : MonoBehaviour
 {
     public List<AudioClip> audioClips = new List<AudioClip>(); 
-    public GameObject cameraWalk; 
+    public GameObject cameraWalk;
 
+    public AudioSource feetSource;
+    
     private AudioSource audioSource;
     private Vector3 lastPosition; 
-    private float distanceThreshold = 0.5f; 
+    private float distanceThreshold = 0.3f; 
     private int lastPlayedIndex = -1;
 
     void Start()
@@ -45,9 +47,9 @@ public class PlayRandomSoundOnMove : MonoBehaviour
             while (randomIndex == lastPlayedIndex); // Repeat until a different index is selected
 
             // Play the selected audio clip
-            audioSource.clip = audioClips[randomIndex];
-            audioSource.pitch = Random.Range(0.9f, 1.1f);
-            audioSource.Play();
+            feetSource.clip = audioClips[randomIndex];
+            feetSource.pitch = Random.Range(0.9f, 1.1f);
+            feetSource.Play();
 
             // Update lastPlayedIndex to the current one
             lastPlayedIndex = randomIndex;

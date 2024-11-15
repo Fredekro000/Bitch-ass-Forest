@@ -17,15 +17,17 @@ public class Radio : MonoBehaviour
 
     public List<AudioClip> rustleSounds = new List<AudioClip>();
 
-    private bool isInFoliage = false;
-    private bool foliageRustlingCooldown = false;
-    private Vector3 previousHandPosition;
-    private Vector3 currentVelocity;
-    public float velocityThreshold = 0.5f; // Set a velocity threshold for rustling
+    private bool isInFoliage = false;  // Tracks if hand is in foliage
+    private bool foliageRustlingCooldown = false; // Cooldown for rustling sounds
+    private Vector3 lastPosition; // To track the previous position of the hand
 
-    private Collider foliageCollider;
+    public float movementThreshold = 0.1f; // Minimum movement to trigger rustling sound
+    public float movementCheckInterval = 0.5f; // Time between movement checks
 
-    void Start() { }
+    void Start() 
+    {
+        lastPosition = transform.position; // Set initial position of the hand object
+    }
 
     public void OnTriggerEnter(Collider other)
     {
@@ -94,8 +96,6 @@ public class Radio : MonoBehaviour
         else if (other.gameObject.CompareTag("Foliage"))
         {
             isInFoliage = true;
-            foliageCollider = other;
-            previousHandPosition = transform.position;
             StartCoroutine(PlayRustlingSounds(other.GetComponent<AudioSource>()));
         }
     }
@@ -104,61 +104,35 @@ public class Radio : MonoBehaviour
     {
         if (other.gameObject.CompareTag("Foliage"))
         {
-            isInFoliage = false;
-            foliageCollider = null;
+            isInFoliage = false; // Set to false when hand leaves foliage
         }
-    }
-
-    void Update()
-    {
-        if (isInFoliage && foliageCollider != null)
-        {
-            // Calculate velocity based on position change over time
-            currentVelocity = (transform.position - previousHandPosition) / Time.deltaTime;
-
-            // Check if the hand's velocity exceeds the threshold
-            if (currentVelocity.magnitude > velocityThreshold && !foliageRustlingCooldown)
-            {
-                AudioSource foliageAudioSource = foliageCollider.GetComponent<AudioSource>();
-                if (foliageAudioSource != null && rustleSounds.Count > 0)
-                {
-                    int randomIndex = Random.Range(0, rustleSounds.Count);
-                    foliageAudioSource.clip = rustleSounds[randomIndex];
-                    foliageAudioSource.Play();
-                    foliageRustlingCooldown = true;
-                    StartCoroutine(RustlingSoundCooldown(foliageAudioSource.clip.length));
-                }
-            }
-
-            previousHandPosition = transform.position; // Update hand position
-        }
-    }
-
-    IEnumerator RustlingSoundCooldown(float duration)
-    {
-        yield return new WaitForSeconds(duration);
-        foliageRustlingCooldown = false;
     }
 
     IEnumerator PlayRustlingSounds(AudioSource foliageAudioSource)
     {
         while (isInFoliage && foliageAudioSource != null)
         {
-            if (!foliageRustlingCooldown && rustleSounds.Count > 0)
+            // Check for movement in the foliage
+            if (Vector3.Distance(transform.position, lastPosition) > movementThreshold && !foliageRustlingCooldown)
             {
-                foliageRustlingCooldown = true;
+                lastPosition = transform.position; // Update last position
+                if (!foliageRustlingCooldown && rustleSounds.Count > 0)
+                {
+                    foliageRustlingCooldown = true;
 
-                int randomIndex = Random.Range(0, rustleSounds.Count);
-                foliageAudioSource.clip = rustleSounds[randomIndex];
-                foliageAudioSource.Play();
+                    // Pick a random rustling sound
+                    int randomIndex = Random.Range(0, rustleSounds.Count);
+                    foliageAudioSource.clip = rustleSounds[randomIndex];
+                    foliageAudioSource.pitch = Random.Range(0.9f, 1.1f);
+                    foliageAudioSource.Play();
 
-                yield return new WaitForSeconds(foliageAudioSource.clip.length);
-                foliageRustlingCooldown = false;
+                    // Cooldown to prevent immediate replay of rustling sound
+                    yield return new WaitForSeconds(foliageAudioSource.clip.length);
+                    foliageRustlingCooldown = false;
+                }
             }
-            else
-            {
-                yield return null;
-            }
+
+            yield return new WaitForSeconds(movementCheckInterval); // Wait before checking again
         }
     }
 

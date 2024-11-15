@@ -3,7 +3,16 @@
 --- !u!78 &1
 TagManager:
   serializedVersion: 2
-  tags: []
+  tags:
+  - Water
+  - lb_groundTarget
+  - lb_perchTarget
+  - lb_bird
+  - Terrain
+  - Hand
+  - CubeTerrain
+  - Foliage
+  - Radio
   layers:
   - Default
   - TransparentFX
