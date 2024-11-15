@@ -9,40 +9,45 @@ public class Radio : MonoBehaviour
     public AnimationClip RadioOff;
     bool RadioState = false;
     bool isCooldown = false;
-    
+
     const float fadeTime = 1.5f;
     public Material red;
     public Material green;
     public GameObject button;
-   
+
     public List<AudioClip> rustleSounds = new List<AudioClip>();
-    
+
+    private bool isInFoliage = false;
+    private bool foliageRustlingCooldown = false;
+    private Vector3 previousHandPosition;
+    private Vector3 currentVelocity;
+    public float velocityThreshold = 0.5f; // Set a velocity threshold for rustling
+
+    private Collider foliageCollider;
+
     void Start() { }
 
     public void OnTriggerEnter(Collider other)
     {
         if (other.gameObject.CompareTag("Radio"))
         {
-            // Get the components from the button object (assumes the button itself has these components)
             AudioSource radioAudioSource = other.GetComponent<AudioSource>();
             Animator radioAnimator = other.GetComponent<Animator>();
             Renderer buttonRenderer = other.GetComponent<Renderer>();
 
-            // Ensure audio source is ready to play and starts playing only if it hasn't already been triggered
             if (radioAudioSource != null && !radioAudioSource.isPlaying)
             {
                 radioAudioSource.volume = 0;
-                radioAudioSource.Play(); // Start the audio if it's the first time being activated
+                radioAudioSource.Play();
             }
-            
+
             if (isCooldown) return;
 
-            // Toggle radio state
             if (!RadioState)
             {
                 if (buttonRenderer != null) buttonRenderer.material = green;
                 RadioState = true;
-                
+
                 if (radioAnimator != null)
                 {
                     radioAnimator.SetBool("RadioMode", true);
@@ -51,9 +56,10 @@ public class Radio : MonoBehaviour
 
                 if (radioAudioSource != null)
                 {
-                    radioAudioSource.UnPause(); // Resume audio if it's paused
+                    radioAudioSource.UnPause();
                     StartCoroutine(FadeIn(radioAudioSource, fadeTime));
                 }
+
                 if (button != null)
                 {
                     Renderer otherRenderer = button.GetComponent<Renderer>();
@@ -64,20 +70,22 @@ public class Radio : MonoBehaviour
             {
                 if (buttonRenderer != null) buttonRenderer.material = red;
                 RadioState = false;
-                
+
                 if (radioAnimator != null)
                 {
                     radioAnimator.SetBool("RadioMode", false);
                     radioAnimator.Play(RadioOff.name);
                 }
+
+                if (radioAudioSource != null)
+                {
+                    StartCoroutine(FadeOut(radioAudioSource, fadeTime));
+                }
+
                 if (button != null)
                 {
                     Renderer otherRenderer = button.GetComponent<Renderer>();
                     if (otherRenderer != null) otherRenderer.material = red;
-                }
-                if (radioAudioSource != null)
-                {
-                    StartCoroutine(FadeOut(radioAudioSource, fadeTime));
                 }
             }
 
@@ -85,18 +93,72 @@ public class Radio : MonoBehaviour
         } 
         else if (other.gameObject.CompareTag("Foliage"))
         {
-            if (isCooldown) return;
+            isInFoliage = true;
+            foliageCollider = other;
+            previousHandPosition = transform.position;
+            StartCoroutine(PlayRustlingSounds(other.GetComponent<AudioSource>()));
+        }
+    }
 
-            // Get AudioSource from the foliage and play a random rustle sound
-            AudioSource foliageAudioSource = other.GetComponent<AudioSource>();
-            if (foliageAudioSource != null && rustleSounds.Count > 0)
+    public void OnTriggerExit(Collider other)
+    {
+        if (other.gameObject.CompareTag("Foliage"))
+        {
+            isInFoliage = false;
+            foliageCollider = null;
+        }
+    }
+
+    void Update()
+    {
+        if (isInFoliage && foliageCollider != null)
+        {
+            // Calculate velocity based on position change over time
+            currentVelocity = (transform.position - previousHandPosition) / Time.deltaTime;
+
+            // Check if the hand's velocity exceeds the threshold
+            if (currentVelocity.magnitude > velocityThreshold && !foliageRustlingCooldown)
             {
+                AudioSource foliageAudioSource = foliageCollider.GetComponent<AudioSource>();
+                if (foliageAudioSource != null && rustleSounds.Count > 0)
+                {
+                    int randomIndex = Random.Range(0, rustleSounds.Count);
+                    foliageAudioSource.clip = rustleSounds[randomIndex];
+                    foliageAudioSource.Play();
+                    foliageRustlingCooldown = true;
+                    StartCoroutine(RustlingSoundCooldown(foliageAudioSource.clip.length));
+                }
+            }
+
+            previousHandPosition = transform.position; // Update hand position
+        }
+    }
+
+    IEnumerator RustlingSoundCooldown(float duration)
+    {
+        yield return new WaitForSeconds(duration);
+        foliageRustlingCooldown = false;
+    }
+
+    IEnumerator PlayRustlingSounds(AudioSource foliageAudioSource)
+    {
+        while (isInFoliage && foliageAudioSource != null)
+        {
+            if (!foliageRustlingCooldown && rustleSounds.Count > 0)
+            {
+                foliageRustlingCooldown = true;
+
                 int randomIndex = Random.Range(0, rustleSounds.Count);
                 foliageAudioSource.clip = rustleSounds[randomIndex];
                 foliageAudioSource.Play();
-            }
 
-            StartCoroutine(StartCooldown(0.5f));
+                yield return new WaitForSeconds(foliageAudioSource.clip.length);
+                foliageRustlingCooldown = false;
+            }
+            else
+            {
+                yield return null;
+            }
         }
     }
 
