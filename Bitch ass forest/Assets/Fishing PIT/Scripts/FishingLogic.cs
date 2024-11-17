@@ -80,17 +80,19 @@ public class FishingLogic : MonoBehaviour
         {
             RemoveFishFromLure();
         }
+
+
         /*
         if (isLureOnWater)
         {
             GlideLureOnWater();
         }
-        
+
         if (!isFishAttached && IsLureOnWater())
         {
             AttachFishToLure();
         }*/
-        
+
         // Increase strain when reeling in
         /*if (fishingRod != null && fishingRod.currentState == FishingRodState.ReelingFish)
         {
@@ -112,7 +114,7 @@ public class FishingLogic : MonoBehaviour
     
     void UpdateIdleState()
     {
-        Debug.Log("Idle State");
+        //Debug.Log("Idle State");
         if (IsLureOnWater())
         {
             TransitionToState(LureState.InWater);
@@ -120,14 +122,14 @@ public class FishingLogic : MonoBehaviour
         
         if (isFishAttached && fishAnimator != null)
         {
-            fishAnimator.SetBool("IsIdle", true);
+            fishAnimator.SetBool("isIdle", true);
         }
         //StopCoroutine(FishStruggleCoroutine());
     }
 
     void UpdateInWaterState()
     {
-        Debug.Log("Water State");
+        //Debug.Log("Water State");
         if (!IsLureOnWater())
         {
             TransitionToState(LureState.Idle);
@@ -158,7 +160,7 @@ public class FishingLogic : MonoBehaviour
     void UpdateHookingFishState()
     {
         //AttachFishToLure();
-        Debug.Log("Hooking Fish State");
+        //Debug.Log("Hooking Fish State");
     }
     bool IsLureOnWater()
     {
@@ -172,15 +174,15 @@ public class FishingLogic : MonoBehaviour
         {
             if (hit.transform.CompareTag("Water"))
             {
-                print("lure is on water");
+                //print("lure is on water");
                 return true;
             }
             else
             {
-                Debug.Log("Hit something else: " + hit.transform.name);
+                //Debug.Log("Hit something else: " + hit.transform.name);
             }
         }
-        print("lure is no longer on water");
+        //print("lure is no longer on water");
         return false;
     }
 
@@ -202,7 +204,7 @@ public class FishingLogic : MonoBehaviour
         }
         else
         {
-            Debug.LogError("Fish prefab is not assigned.");
+            //Debug.LogError("Fish prefab is not assigned.");
         }
     }
 
@@ -249,7 +251,7 @@ public class FishingLogic : MonoBehaviour
                 Destroy(currentSplashParticle);
                 currentSplashParticle = null;
                 splashParticleActive = false;
-                Debug.Log("Fish gone lure out of water");
+                //Debug.Log("Fish gone lure out of water");
             }
         }
     }
@@ -286,7 +288,7 @@ public class FishingLogic : MonoBehaviour
             yield return new WaitForSeconds(Random.Range(3f, 5f));
             Vector3 struggleDirection = new Vector3(Random.Range(-1f, 1f), 0, Random.Range(-1f, 1f)).normalized;
             float struggleDuration = Random.Range(1f, 2f);
-            Debug.Log("Fish is struggling!");
+            //Debug.Log("Fish is struggling!");
 
             isFishStruggling = true;
             
@@ -305,10 +307,10 @@ public class FishingLogic : MonoBehaviour
             if (fishingRod.currentState == FishingRodState.ReelingFish && isFishStruggling)
             {
                 currentStrain += Time.deltaTime * 10f;
-                Debug.Log("Applying Strain: " + currentStrain);
+                //Debug.Log("Applying Strain: " + currentStrain);
                 if (currentStrain > strainThreshold)
                 {
-                    Debug.Log("Line Snapped!");
+                    //Debug.Log("Line Snapped!");
                     currentState = LureState.InWater;
                     TransitionToState(LureState.Idle);
                     yield break;
@@ -341,8 +343,8 @@ public class FishingLogic : MonoBehaviour
             fish.SetParent(null);
             fish.GetComponent<Rigidbody>().isKinematic = false;
             currentState = LureState.Idle;
-            Debug.Log("Fish removed from lure.");
+            fishAnimator.SetBool("isResting", true);
+            //Debug.Log("Fish removed from lure.");
         }
     }
-
 }
