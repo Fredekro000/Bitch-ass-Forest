@@ -13,6 +13,9 @@ TagManager:
   - CubeTerrain
   - Foliage
   - Radio
+  - lb_perchTarget1
+  - lb_groundTarget1
+  - lb_bird1
   layers:
   - Default
   - TransparentFX
