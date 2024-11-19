@@ -91,12 +91,7 @@ public class HandInteraction : MonoBehaviour
 
         if (state) // If turning the radio on
         {
-            if (firstTime)
-            {
-                radioAudioSource.Play();
-                firstTime = false;
-            }
-            else if (radioAudioSource != null)
+            if (radioAudioSource != null)
             {
                 radioAudioSource.UnPause();
                 StartCoroutine(FadeIn(radioAudioSource, fadeTime));
