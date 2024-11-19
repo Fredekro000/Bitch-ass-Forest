@@ -37,7 +37,7 @@ public class FishingRod : MonoBehaviour
 
     public FishingLogic fishingLogic;
     
-    private Color baseColor = Color.blue;
+    private Color baseColor = Color.white;
     private Color struggleColor = Color.red;
 
     public Transform[] rodBones;
@@ -46,9 +46,14 @@ public class FishingRod : MonoBehaviour
     public InputActionReference AButtonReference;
 
     public Material lineColor;
-    public bool isHoldingA = false;
+    //public bool isHoldingA = false;
     private Vector3 initialPosition;
+    private Quaternion initialRotation;
     public float throwThreshold = 1.0f;
+
+    private bool isSwinging = false;
+    public float maxThrowSpeed = 50f;
+    public float forceMultiplier = 0.5f;
 
     //public InputActionProperty AButton;
 
@@ -82,24 +87,34 @@ public class FishingRod : MonoBehaviour
                 break;
         }
 
-        if (Input.GetButtonDown("Fire1") && currentState == FishingRodState.Idle && fishingLogic.currentState == LureState.Idle)
+        /*if (Input.GetButtonDown("Fire1") && currentState == FishingRodState.Idle && fishingLogic.currentState == LureState.Idle)
         {
-            CastLure();
+            //CastLure();
+            StartThrowLure();
+            Debug.Log("Casting Lure");
         }
-
-        if (isHoldingA)
-        {
-            CastLure();
-        }
-
         if (Input.GetButtonUp("Fire1") && currentState == FishingRodState.Casting)
         {
-            StopCasting();
+            //StopCasting();
+            ThrowLure();
+            Debug.Log("Casting Lure");
+        }*/
+        
+        /*if (isHoldingA)
+        {
+            StartThrowLure();
         }
 
+        if (!isHoldingA)
+        {
+            ThrowLure();
+            Debug.Log("prep to cast Lure");
+        }*/
+        
         if (Input.GetButtonDown("Fire2") && currentState != FishingRodState.Reeling)
         {
             StartReeling();
+            Debug.Log("Starting Reeling");
         }
 
         if (Input.GetButtonUp("Fire2") && currentState == FishingRodState.Reeling)
@@ -144,21 +159,70 @@ public class FishingRod : MonoBehaviour
 
     void OnAPress()
     {
-        isHoldingA = true;
+        Debug.Log("A Button Pressed");
+        isSwinging = true;
         initialPosition = rodTip.position;
+        initialRotation = rodTip.rotation;
+        StartThrowLure();
     }
 
     void OnARelease()
     {
-        isHoldingA = false;
-        Vector3 throwDirection = rodTip.position - initialPosition;
+        Debug.Log("A Button Released");
+        //isSwinging = false;
+        ThrowLure();
+        StartCoroutine(ResetSwinging());
+        /*Vector3 throwDirection = rodTip.position - initialPosition;
         if (throwDirection.magnitude > throwThreshold)
         {
             // Apply velocity to the fishing rod in the direction of the throw
             Rigidbody rb = GetComponent<Rigidbody>();
             rb.velocity = throwDirection.normalized * throwDirection.magnitude;
+        }*/
+    }
+
+    void StartThrowLure()
+    {
+        initialPosition = rodTip.position;
+        initialRotation = rodTip.rotation;
+        //lureRb.isKinematic = false;
+        Debug.Log("Starting Throw Lure");
+    }
+
+    void ThrowLure()
+    {
+        Debug.Log("Throwing Lure");
+        if (isSwinging && currentState == FishingRodState.Idle && fishingLogic.currentState == LureState.Idle)
+        {
+            Debug.Log("ThrowLure isSwinging is true");
+            currentState = FishingRodState.Casting;
+            lureRb.isKinematic = false;
+            Vector3 swingDirection = rodTip.position - initialPosition;
+            float swingSpeed = swingDirection.magnitude / Time.deltaTime;
+            Debug.Log($"Original Swing Speed: {swingSpeed}");
+            swingSpeed = Mathf.Min(swingSpeed, maxThrowSpeed);
+            Debug.Log($"Clamped Swing Speed: {swingSpeed}");
+            Vector3 throwForce = swingDirection.normalized * swingSpeed * forceMultiplier;
+            Debug.Log($"Swing Direction: {swingDirection}, Swing Speed: {swingSpeed}, Throw Force: {throwForce}");
+            
+            /*if (throwForce.magnitude > maxThrowSpeed)
+            {
+                throwForce = throwForce.normalized / maxThrowSpeed;
+            }*/
+            lureRb.AddForce(throwForce, ForceMode.VelocityChange);
+        }
+        else
+        {
+            Debug.Log("Throwlure isSwinging is false");
         }
     }
+    
+    IEnumerator ResetSwinging()
+    {
+        yield return new WaitForEndOfFrame();
+        isSwinging = false;
+    }
+    
     void UpdateLineRenderer()
     {
         points[0] = rodTip.position;
@@ -244,7 +308,7 @@ public class FishingRod : MonoBehaviour
         currentState = FishingRodState.Casting;
     }
 
-    void StartReeling()
+    public void StartReeling()
     {
         currentState = FishingRodState.Reeling;
     }
