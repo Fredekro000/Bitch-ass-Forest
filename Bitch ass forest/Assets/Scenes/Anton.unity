@@ -9851,6 +9851,7 @@ MonoBehaviour:
   weight: 1
   AButtonReference: {fileID: -2426056948460686989, guid: c348712bda248c246b8c49b3db54643f,
     type: 3}
+  BButtonReference: {fileID: 0}
   lineColor: {fileID: 2100000, guid: 168722e8136c5754a8587415582681d0, type: 2}
   throwThreshold: 1
   maxThrowSpeed: 50
