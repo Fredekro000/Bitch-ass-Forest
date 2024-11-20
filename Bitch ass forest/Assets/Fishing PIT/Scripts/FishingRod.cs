@@ -1,11 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using Unity.Mathematics;
-using Unity.VisualScripting;
-using Unity.VisualScripting.Dependencies.Sqlite;
 using UnityEngine;
 using UnityEngine.InputSystem;
-using UnityEngine.tvOS;
 using UnityEngine.XR.Interaction.Toolkit;
 using UnityEngine.XR.Interaction.Toolkit.Inputs;
 using UnityEngine.XR;
@@ -44,6 +41,7 @@ public class FishingRod : MonoBehaviour
     public float weight = 1.0f;
 
     public InputActionReference AButtonReference;
+    public InputActionReference BButtonReference;
 
     public Material lineColor;
     //public bool isHoldingA = false;
@@ -67,6 +65,9 @@ public class FishingRod : MonoBehaviour
         
         AButtonReference.action.performed += ctx => OnAPress();
         AButtonReference.action.canceled += ctx => OnARelease();
+        
+        BButtonReference.action.performed += ctx => OnBPress();
+        BButtonReference.action.canceled += ctx => OnBRelease();
     }
 
     void Update()
@@ -150,11 +151,13 @@ public class FishingRod : MonoBehaviour
     void OnEnable()
     {
         AButtonReference.action.Enable();
+        BButtonReference.action.Enable();
     }
 
     void OnDisable()
     {
         AButtonReference.action.Disable();
+        BButtonReference.action.Disable();
     }
 
     void OnAPress()
@@ -179,6 +182,32 @@ public class FishingRod : MonoBehaviour
             Rigidbody rb = GetComponent<Rigidbody>();
             rb.velocity = throwDirection.normalized * throwDirection.magnitude;
         }*/
+    }
+
+    void OnBPress()
+    {
+        if (currentState != FishingRodState.Reeling)
+        {
+            StartReeling();
+        }
+
+        if (currentState != FishingRodState.ReelingFish && fishingLogic.currentState == LureState.HookingFish)
+        {
+            StartReelingFish();
+        }
+    }
+
+    void OnBRelease()
+    {
+        if (currentState == FishingRodState.Reeling)
+        {
+            currentState = FishingRodState.Casting;
+        }
+
+        if (currentState == FishingRodState.ReelingFish && fishingLogic.currentState == LureState.HookingFish)
+        {
+            currentState = FishingRodState.Casting;
+        }
     }
 
     void StartThrowLure()

@@ -5,14 +5,14 @@ using UnityEngine.XR.Interaction.Toolkit;
 
 public class HandleRotation : MonoBehaviour
 {
-    private XRGrabInteractable grabInteractable;
+    public XRGrabInteractable grabInteractable;
     public Transform handleTransform;
     private Quaternion lastRotation;
     public FishingRod fishingRod;
     // Start is called before the first frame update
     void Start()
     {
-        grabInteractable = GetComponent<XRGrabInteractable>();
+        //grabInteractable = GetComponent<XRGrabInteractable>();
         lastRotation = handleTransform.rotation;
     }
 
