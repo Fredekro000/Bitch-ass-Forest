@@ -1,5 +1,7 @@
+using System;
 using UnityEngine;
 using System.Collections;
+using Random = UnityEngine.Random;
 
 public class lb_Bird1 : MonoBehaviour {
 	enum birdBehaviors{
@@ -23,6 +25,7 @@ public class lb_Bird1 : MonoBehaviour {
 	public bool fleeCrows = true;
 
 	Animator anim;
+	public CollCheck checker;
 	lb_BirdController1 controller;
 
 	bool paused = false;
@@ -65,6 +68,11 @@ public class lb_Bird1 : MonoBehaviour {
 	int singTriggerHash;
 	int flyingDirectionHash;
 	int dieTriggerHash;
+
+	private void Start()
+	{
+		checker = FindObjectOfType<CollCheck>();
+	}
 
 	void OnEnable () {
 		birdCollider = gameObject.GetComponent<BoxCollider>();
@@ -376,14 +384,6 @@ public class lb_Bird1 : MonoBehaviour {
 					DisplayBehavior(birdBehaviors.preen);	
 				}else if (!perched && rand<.7){
 					DisplayBehavior(birdBehaviors.ruffle);	
-				}else if (!perched && rand <.85){
-					DisplayBehavior(birdBehaviors.hopForward);	
-				}else if (!perched && rand < .9){
-					DisplayBehavior(birdBehaviors.hopLeft);	
-				}else if (!perched && rand <.95){
-					DisplayBehavior(birdBehaviors.hopRight);
-				}else if (!perched && rand <= 1){
-					DisplayBehavior(birdBehaviors.hopBackward);	
 				}else{
 					DisplayBehavior(birdBehaviors.sing);	
 				}
@@ -391,10 +391,18 @@ public class lb_Bird1 : MonoBehaviour {
 				anim.SetFloat ("IdleAgitated",Random.value);
 			}
 			//birds should fly to a new target about every 10 seconds
-			if (Random.value < Time.deltaTime*.1){
-				FlyAway ();
+			if (checker.inArea)
+			{
+				StartCoroutine(FlyAwayRoutine());
+
 			}
 		}
+	}
+	IEnumerator FlyAwayRoutine()
+	{
+		FlyAway(); // Call the FlyAway function
+		yield return new WaitForSeconds(3); // Wait for 2 seconds
+		gameObject.SetActive(false); // Set the bird inactive
 	}
 	
 	void DisplayBehavior(birdBehaviors behavior){
@@ -427,18 +435,7 @@ public class lb_Bird1 : MonoBehaviour {
 		}
 	}
 
-	void OnTriggerEnter(Collider col){
-		if (col.tag == "lb_bird1"){
-			FlyAway ();
-		}
-	}
-
-	void OnTriggerExit(Collider col){
-		//if bird has hopped out of the target area lets fly
-		if (onGround && (col.tag == "lb_groundTarget1" || col.tag == "lb_perchTarget1")){
-			FlyAway ();
-		}
-	}
+	
 
 	void AbortFlyToTarget(){
 		StopCoroutine("FlyToTarget");
@@ -479,7 +476,6 @@ public class lb_Bird1 : MonoBehaviour {
 
 	public void KillBird(){
 		if(!dead){
-			controller.SendMessage ("FeatherEmit",transform.position);
 			anim.SetTrigger(dieTriggerHash);
 			anim.applyRootMotion = false;
 			dead = true;

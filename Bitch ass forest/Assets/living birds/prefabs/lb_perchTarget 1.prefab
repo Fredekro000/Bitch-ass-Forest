@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 400000}
   - component: {fileID: 13500000}
   m_Layer: 0
-  m_Name: lc_perchTarget 1
+  m_Name: lb_perchTarget 1
   m_TagString: lb_perchTarget
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

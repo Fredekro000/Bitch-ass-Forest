@@ -1651,7 +1651,8 @@ MonoBehaviour:
   flyAway1: {fileID: 0}
   flyAway2: {fileID: 0}
   xrOrigin: {fileID: 0}
-  fleeCrows: 1
+  fleeCrows: 0
+  checker: {fileID: 0}
 --- !u!65 &6500000
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -1682,8 +1683,8 @@ Rigidbody:
   m_GameObject: {fileID: 100092}
   serializedVersion: 4
   m_Mass: 1
-  m_Drag: 0.5
-  m_AngularDrag: 0.05
+  m_Drag: 0
+  m_AngularDrag: 0
   m_CenterOfMass: {x: 0, y: 0, z: 0}
   m_InertiaTensor: {x: 1, y: 1, z: 1}
   m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
@@ -1698,7 +1699,7 @@ Rigidbody:
   m_UseGravity: 0
   m_IsKinematic: 0
   m_Interpolate: 0
-  m_Constraints: 0
+  m_Constraints: 80
   m_CollisionDetection: 0
 --- !u!82 &8200000
 AudioSource:
@@ -1815,5 +1816,5 @@ SphereCollider:
   m_ProvidesContacts: 0
   m_Enabled: 0
   serializedVersion: 3
-  m_Radius: 0.08
+  m_Radius: 0.04
   m_Center: {x: 0, y: 0.04, z: 0}

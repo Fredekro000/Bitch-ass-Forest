@@ -87,7 +87,7 @@ public class lb_BirdController1 : MonoBehaviour {
 		}
 		//set up the bird types to use
 		if(robin){
-			myBirdTypes.Add ("lb_robin1");
+			myBirdTypes.Add ("lb_robin 1");
 		}
 		if (blueJay){
 			myBirdTypes.Add ("lb_blueJay");
@@ -99,7 +99,7 @@ public class lb_BirdController1 : MonoBehaviour {
 			myBirdTypes.Add ("lb_chickadee");
 		}
 		if(sparrow){
-			myBirdTypes.Add ("lb_sparrow1");
+			myBirdTypes.Add ("lb_sparrow 1");
 		}
 		if(goldFinch){
 			myBirdTypes.Add ("lb_goldFinch");
@@ -125,6 +125,7 @@ public class lb_BirdController1 : MonoBehaviour {
 
 		//find all the targets
 		GameObject[] groundTargets = GameObject.FindGameObjectsWithTag("lb_groundTarget1");
+		Debug.Log(groundTargets.Length);
 		GameObject[] perchTargets = GameObject.FindGameObjectsWithTag("lb_perchTarget1");
 
 		for (int i=0;i<groundTargets.Length;i++){
@@ -199,6 +200,7 @@ public class lb_BirdController1 : MonoBehaviour {
 			for(int i=0;i<birdGroundTargets.Count;i++){
 				if (Vector3.Distance (birdGroundTargets[i].transform.position,currentCamera.transform.position)>unspawnDistance){
 					gtRemove.Add (birdGroundTargets[i]);
+					Debug.Log("It got removed");
 				}
 				yield return 0;
 			}
@@ -245,35 +247,33 @@ public class lb_BirdController1 : MonoBehaviour {
 		activeBirds --;
 	}
 
-	void SpawnBird(){
-		if (!pause){
-			GameObject bird = null;
-			int randomBirdIndex = Mathf.FloorToInt (Random.Range (0,myBirds.Length));
-			int loopCheck = 0;
-			//find a random bird that is not active
-			while(bird == null){
-				if(myBirds[randomBirdIndex].activeSelf == false){
-					bird = myBirds[randomBirdIndex];
+	void SpawnBird()
+	{
+		if (!pause)
+		{
+			foreach (GameObject bird in myBirds)
+			{
+				if (!bird.activeSelf)
+				{
+					// Find a point off camera to position the bird
+					Vector3 spawnPosition = FindPositionOffCamera();
+					if (spawnPosition != Vector3.zero)
+					{
+						bird.transform.position = spawnPosition;
+						bird.SetActive(true);
+						activeBirds++;
+						BirdFindTarget(bird);
+					}
+					else
+					{
+						// Couldn't find a suitable spawn point for this bird
+						Debug.LogWarning("Could not find a suitable spawn point for bird.");
+					}
 				}
-				randomBirdIndex = randomBirdIndex+1 >= myBirds.Length ? 0:randomBirdIndex+1;
-				loopCheck ++;
-				if (loopCheck >= myBirds.Length){
-					//all birds are active
-					return;
-				}
-			}
-			//Find a point off camera to positon the bird and activate it
-			bird.transform.position = FindPositionOffCamera();
-			if(bird.transform.position == Vector3.zero){
-				//couldnt find a suitable spawn point
-				return;
-			}else{
-				bird.SetActive (true);
-				activeBirds++;
-				BirdFindTarget(bird);
 			}
 		}
 	}
+
 
 	bool AreThereActiveTargets(){
 		if (birdGroundTargets.Count > 0 || birdPerchTargets.Count > 0){
@@ -301,6 +301,33 @@ public class lb_BirdController1 : MonoBehaviour {
 		}
 		return currentCamera.transform.position+(ray*dist);
 	}
+	
+	IEnumerable<WaitForSeconds> BirdFindGroundTarget(GameObject bird){
+		GameObject target;
+		if (birdGroundTargets.Count > 0 || birdPerchTargets.Count > 0){
+			//pick a random target based on the number of available targets vs the area of ground targets
+			//each perch target counts for .3 area, each ground target's area is calculated
+			float gtArea=0.0f;
+			float ptArea=birdPerchTargets.Count*0.3f;
+
+			for (int i=0;i<birdGroundTargets.Count;i++){
+				gtArea += birdGroundTargets[i].GetComponent<Collider>().bounds.size.x*birdGroundTargets[i].GetComponent<Collider>().bounds.size.z;
+			}
+			if (ptArea == 0.0f || Random.value < gtArea/(gtArea+ptArea)){
+				target = birdGroundTargets[Mathf.FloorToInt (Random.Range (0,birdGroundTargets.Count))];
+				bird.SendMessage ("FlyToTarget",FindPointInGroundTarget(target));
+			}else{
+				target = birdPerchTargets[Mathf.FloorToInt (Random.Range (0,birdPerchTargets.Count))];
+				bird.SendMessage ("FlyToTarget",target.transform.position);
+			}
+		}else{
+			bird.SendMessage ("FlyToTarget",currentCamera.transform.position+new Vector3(Random.Range (-100,100),Random.Range (5,10),Random.Range(-100,100)));
+		}
+		yield return new WaitForSeconds(2);
+		bird.SetActive(false);
+	}
+
+
 	
 	void BirdFindTarget(GameObject bird){
 		//yield return new WaitForSeconds(1);

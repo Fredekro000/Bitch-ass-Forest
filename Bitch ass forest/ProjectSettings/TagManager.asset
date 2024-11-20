@@ -16,6 +16,8 @@ TagManager:
   - lb_perchTarget1
   - lb_groundTarget1
   - lb_bird1
+  - Omrade
+  - Origin
   layers:
   - Default
   - TransparentFX
