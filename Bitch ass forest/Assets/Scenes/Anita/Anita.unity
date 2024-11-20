@@ -4879,7 +4879,7 @@ VisualEffect:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1102042595}
   m_Enabled: 1
-  m_Asset: {fileID: 8926484042661614526, guid: dbe0d1017e3374001aeeac81d33645e3, type: 3}
+  m_Asset: {fileID: 8926484042661614526, guid: 87f31e442abb5495c860cf1336bc9e9e, type: 3}
   m_InitialEventName: OnPlay
   m_InitialEventNameOverriden: 0
   m_StartSeed: 0
@@ -4892,7 +4892,7 @@ VisualEffect:
       - m_Value: 25
         m_Name: Count
         m_Overridden: 1
-      - m_Value: 10
+      - m_Value: 20
         m_Name: Radius
         m_Overridden: 1
     m_Vector2f:
@@ -4927,7 +4927,7 @@ Transform:
   m_GameObject: {fileID: 1102042595}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 5.2, z: 0}
+  m_LocalPosition: {x: 0, y: 2.15, z: 0}
   m_LocalScale: {x: 2, y: 2, z: 2}
   m_ConstrainProportionsScale: 0
   m_Children: []
