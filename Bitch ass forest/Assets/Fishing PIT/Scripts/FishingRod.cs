@@ -51,7 +51,14 @@ public class FishingRod : MonoBehaviour
 
     private bool isSwinging = false;
     public float maxThrowSpeed = 50f;
-    public float forceMultiplier = 0.5f;
+    public float forceMultiplier = 0.15f;
+
+    public float slackFactor = 0.5f;
+    //public float length;
+    public float maxLineLength;
+    
+    private Quaternion[] defaultRotations;
+    public Transform[] hoops;
 
     //public InputActionProperty AButton;
 
@@ -68,6 +75,19 @@ public class FishingRod : MonoBehaviour
         
         BButtonReference.action.performed += ctx => OnBPress();
         BButtonReference.action.canceled += ctx => OnBRelease();
+        
+        if (rodBones == null || rodBones.Length == 0)
+            return;
+
+        defaultRotations = new Quaternion[rodBones.Length];
+
+        for (int i = 0; i < rodBones.Length; i++)
+        {
+            if (rodBones[i] != null)
+            {
+                defaultRotations[i] = rodBones[i].localRotation;
+            }
+        }
     }
 
     void Update()
@@ -111,7 +131,7 @@ public class FishingRod : MonoBehaviour
             ThrowLure();
             Debug.Log("prep to cast Lure");
         }*/
-        
+        /*
         if (Input.GetButtonDown("Fire2") && currentState != FishingRodState.Reeling)
         {
             StartReeling();
@@ -130,11 +150,19 @@ public class FishingRod : MonoBehaviour
         if (Input.GetButtonUp("Fire2") && currentState == FishingRodState.ReelingFish && fishingLogic.currentState == LureState.HookingFish)
         {
             currentState = FishingRodState.Casting;
-        }
+        }*/
 
         UpdateLineRenderer();
         UpdateLineRendererColor();
-        UpdateRodBending();
+        if (currentState == FishingRodState.ReelingFish && fishingLogic.isFishStruggling)
+        {
+            UpdateRodBending();
+        }
+        else
+        {
+            ResetRodBending();
+        }
+        
 
         /*Vector3 direction = lure.position - rodBones[rodBones.Length - 1].position;
         float distance = direction.magnitude;
@@ -186,14 +214,21 @@ public class FishingRod : MonoBehaviour
 
     void OnBPress()
     {
-        if (currentState != FishingRodState.Reeling)
+        if (currentState != FishingRodState.Reeling && currentState == FishingRodState.Casting && fishingLogic.currentState != LureState.HookingFish)
         {
+            Debug.Log("'b press reeling");
             StartReeling();
         }
 
-        if (currentState != FishingRodState.ReelingFish && fishingLogic.currentState == LureState.HookingFish)
+        if (currentState != FishingRodState.ReelingFish && currentState == FishingRodState.Casting && fishingLogic.currentState == LureState.HookingFish)
         {
+            Debug.Log("'b press reeling fish");
             StartReelingFish();
+        }
+        if (currentState == FishingRodState.Idle)
+        {
+            Debug.Log("'b press try to remove fish");
+            fishingLogic.RemoveFishFromLure();
         }
     }
 
@@ -254,7 +289,7 @@ public class FishingRod : MonoBehaviour
     
     void UpdateLineRenderer()
     {
-        points[0] = rodTip.position;
+        /*points[0] = rodTip.position;
         points[segments - 1] = lure.position;
 
         for (int i = 1; i < segments - 1; i++)
@@ -263,7 +298,77 @@ public class FishingRod : MonoBehaviour
             points[i] = Vector3.Lerp(rodTip.position, lure.position, t);
         }
 
+        lineR.SetPositions(points);*/
+        
+        
+        
+        points[0] = rodTip.position; // Start point
+        points[segments - 1] = lure.position; // End point
+
+        Vector3 start = rodTip.position;
+        Vector3 end = lure.position;
+
+        // Calculate the total length and direction of the line
+        Vector3 direction = end - start;
+        float length = direction.magnitude;
+        Vector3 normalizedDirection = direction.normalized;
+
+        for (int i = 1; i < segments - 1; i++)
+        {
+            float t = (float)i / (segments - 1); // Normalized position (0 to 1)
+
+            // Interpolate between start and end points
+            Vector3 point = Vector3.Lerp(start, end, t);
+            slackFactor = Mathf.Clamp(length / maxLineLength, 0.1f, 0.5f);
+            // Add slack using a parabolic sag
+            float sagAmount = Mathf.Sin(Mathf.PI * t) * slackFactor; // Slack curve
+            Vector3 sagOffset = Vector3.down * sagAmount; // Apply sag in the downward direction
+
+            // Offset the point to create the slack
+            points[i] = point + sagOffset;
+        }
+
+        // Update the LineRenderer
         lineR.SetPositions(points);
+        
+        
+        /*
+        // Define the total number of points: rod tip, hoops, reel, and lure
+        int totalPoints = hoops.Length + 2; // Rod tip + hoops + reel + lure
+        lineR.positionCount = totalPoints;
+
+        // Update the points array to match the total number of points
+        Vector3[] points = new Vector3[totalPoints];
+
+        // Add the rod tip as the first point
+        points[0] = rodTip.position;
+        points[1] = lure.position;
+        // Add the hoop positions
+        for (int i = 0; i < hoops.Length; i++)
+        {
+            points[i + 2] = hoops[i].position;
+        }
+
+        // Add the lure as the final point
+        
+
+        // Optional: Apply slack to the line
+        for (int i = 1; i < totalPoints - 1; i++)
+        {
+            // Interpolate between adjacent points to add slack
+            Vector3 previous = points[i - 1];
+            Vector3 next = points[i + 1];
+
+            Vector3 midpoint = (previous + next) * 0.5f;
+            float slackFactor = 0.1f; // Adjust for more/less slack
+            Vector3 sagOffset = Vector3.down * slackFactor;
+
+            // Apply the sag
+            points[i] = midpoint + sagOffset;
+        }
+
+        // Update the LineRenderer with the calculated points
+        lineR.SetPositions(points);*/
     }
     
     void UpdateLineRendererColor()
@@ -351,32 +456,56 @@ public class FishingRod : MonoBehaviour
     {
         if (rodBones == null || rodBones.Length == 0)
         {
-            //Debug.LogError("Rod bones array is not set or empty.");
             return;
         }
 
-        Vector3 direction = lure.position - rodBones[rodBones.Length - 1].position;
-        direction.Normalize();
+        // Control parameters
+        float maxBendAngle = -15f; // Maximum bending angle at the tip
+        float bendSpeed = 2f;     // Speed of bending interpolation
 
         for (int i = 0; i < rodBones.Length; i++)
         {
             if (rodBones[i] == null)
             {
-                //Debug.LogError($"Rod bone at index {i} is null.");
                 continue;
             }
 
-            // Calculate influence based on the bone's position in the array
-            float influence = Mathf.Pow((float)(i + 1) / rodBones.Length, 2); // Squaring the influence for a more pronounced effect
+            // Calculate influence based on the bone's index (more bending at the tip)
+            float influence = (float)(i + 1) / rodBones.Length;
 
-            // Calculate the target rotation for the current bone
-            Quaternion targetRotation = Quaternion.LookRotation(direction);
+            // Target downward bending angle (tip bends the most)
+            float bendAngle = maxBendAngle * influence;
 
-            // Apply the rotation with a weighted influence
-            rodBones[i].localRotation = Quaternion.Slerp(rodBones[i].localRotation, targetRotation, weight * influence * Time.deltaTime);
+            // Create a rotation offset for downward bending
+            Quaternion downwardBend = Quaternion.Euler(bendAngle, 0f, 0f);
 
-            // Visualize bone positions
-            Debug.DrawLine(rodBones[i].position, rodBones[i].position + rodBones[i].forward * 0.1f, Color.red);
+            // Smoothly interpolate the bone's rotation to include the downward bend
+            rodBones[i].localRotation = Quaternion.Slerp(
+                rodBones[i].localRotation,
+                downwardBend,
+                bendSpeed * Time.deltaTime
+            );
+
+            // Visualize the bending (optional)
+            Debug.DrawLine(rodBones[i].position, rodBones[i].position + rodBones[i].up * 0.1f, Color.green);
+        }
+    }
+    void ResetRodBending()
+    {
+        Debug.Log("cannot Reset Rod Bending");
+        if (rodBones == null || defaultRotations == null)
+            return;
+        Debug.Log("Reset Rod Bending");
+        for (int i = 0; i < rodBones.Length; i++)
+        {
+            if (rodBones[i] != null)
+            {
+                rodBones[i].localRotation = Quaternion.Slerp(
+                    rodBones[i].localRotation,
+                    defaultRotations[i],
+                    Time.deltaTime * 5f // Adjust speed for smooth resetting
+                );
+            }
         }
     }
 

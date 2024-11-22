@@ -9,16 +9,26 @@ public class HandleRotation : MonoBehaviour
     public Transform handleTransform;
     private Quaternion lastRotation;
     public FishingRod fishingRod;
+    
+    [SerializeField] private Transform proxyHandle;
+    private Vector3 originalLocalPosition;
+    
     // Start is called before the first frame update
     void Start()
     {
         //grabInteractable = GetComponent<XRGrabInteractable>();
-        lastRotation = handleTransform.rotation;
+        //lastRotation = handleTransform.rotation;
+        originalLocalPosition = transform.localPosition;
     }
 
     // Update is called once per frame
     void Update()
     {
+        transform.localPosition = originalLocalPosition;
+
+        // Synchronize the rotation of the handle with the proxy handle
+        transform.localRotation = proxyHandle.localRotation;
+        /*
         if (grabInteractable.isSelected)
         {
             Quaternion currentRotation = transform.rotation;
@@ -30,6 +40,6 @@ public class HandleRotation : MonoBehaviour
             }
 
             lastRotation = currentRotation;
-        }
+        }*/
     }
 }

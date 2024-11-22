@@ -45,6 +45,8 @@ public class FishingLogic : MonoBehaviour
     public bool isFishStruggling = false;
     LayerMask waterLayer;
     
+    
+    
     // Start is called before the first frame update
     void Start()
     { 
@@ -385,7 +387,7 @@ public class FishingLogic : MonoBehaviour
             fish.GetComponent<Rigidbody>().isKinematic = false;
             currentState = LureState.Idle;
             fishAnimator.SetBool("isResting", true);
-            //Debug.Log("Fish removed from lure.");
+            Debug.Log("Fish removed from lure.");
         }
     }
 }
