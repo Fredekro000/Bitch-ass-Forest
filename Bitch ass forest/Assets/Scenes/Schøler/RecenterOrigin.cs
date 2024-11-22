@@ -15,7 +15,11 @@ public class RecenterOrigin : MonoBehaviour
     public void Recenter()
     {
         XROrigin xrOrigin = GetComponent<XROrigin>();
-        xrOrigin.MoveCameraToWorldLocation(target.position);
+        
+        // Preserve the current Y position of the origin
+        Vector3 adjustedTargetPosition = new Vector3(target.position.x, head.position.y, target.position.z);
+        
+        xrOrigin.MoveCameraToWorldLocation(adjustedTargetPosition);
         xrOrigin.MatchOriginUpCameraForward(target.up, target.forward);
     }
     

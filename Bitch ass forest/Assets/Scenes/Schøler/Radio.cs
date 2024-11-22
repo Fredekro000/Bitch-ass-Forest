@@ -144,12 +144,12 @@ public class HandInteraction : MonoBehaviour
     private IEnumerator FadeIn(AudioSource audioSource, float duration)
     {
         audioSource.volume = 0f;
-        while (audioSource.volume < 1f)
+        while (audioSource.volume < 0.25f)
         {
             audioSource.volume += Time.deltaTime / duration;
             yield return null;
         }
-        audioSource.volume = 1f;
+        audioSource.volume = 0.25f;
     }
 
     private IEnumerator FadeOut(AudioSource audioSource, float duration)

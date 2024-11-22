@@ -11,5 +11,6 @@ public class RadioStart : MonoBehaviour
     {
         radioSource.Play();
         radioSource.Pause();
+        radioSource.volume = 0.5f;
     }
 }
