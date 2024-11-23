@@ -18,9 +18,11 @@ public class FishingLogic : MonoBehaviour
     public Transform lure;
 
     public Transform fish;
-    public GameObject fishPrefab;
     private Animator fishAnimator;
+    private Animator sardineAni;
     public float attachDistance = 0.01f;
+
+    public List<GameObject> fishes = new List<GameObject>();
 
     public bool isFishAttached = false;
 
@@ -83,6 +85,8 @@ public class FishingLogic : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.F) && fishingRod.currentState == FishingRodState.Idle)
         {
             RemoveFishFromLure();
+            
+            
         }
         
         /*
@@ -229,19 +233,35 @@ public class FishingLogic : MonoBehaviour
 
     void AttachFishToLure()
     {
-        if (fishPrefab != null)
+        if (fishes != null)
         {
-            GameObject newFish = Instantiate(fishPrefab, lure.position, Quaternion.identity);
+            GameObject fishCaught = (fishes[Random.Range(0, fishes.Count)]);
+            GameObject newFish = Instantiate(fishCaught, lure.position, Quaternion.identity);
             isFishAttached = true;
             newFish.transform.SetParent(lure);
             newFish.GetComponent<Rigidbody>().isKinematic = true;
             fish = newFish.transform; // Update the fish reference to the new fish
             
-            fishAnimator = newFish.GetComponent<Animator>();
-            if (fishAnimator != null)
+            if (newFish.tag == "Tuna")
             {
-                fishAnimator.SetBool("isResting", false);
+                Debug.Log("TUNA CAUGHT OMG GG");
+              fishAnimator = newFish.GetComponent<Animator>();
+                          if (fishAnimator != null)
+                          {
+                              fishAnimator.SetBool("isResting", false);
+                          }  
             }
+            if (newFish.tag == "Sardine")
+            {
+                Debug.Log("SARDIBNE CAUGHT OMG GG");
+                sardineAni = newFish.GetComponent<Animator>();
+                
+                if (sardineAni != null)
+                {
+                    sardineAni.SetBool("isResting", false);
+                }  
+            }
+            
         }
         else
         {
@@ -386,8 +406,17 @@ public class FishingLogic : MonoBehaviour
             fish.SetParent(null);
             fish.GetComponent<Rigidbody>().isKinematic = false;
             currentState = LureState.Idle;
-            fishAnimator.SetBool("isResting", true);
+            if (fish.CompareTag("Tuna"))
+            {
+               fishAnimator.SetBool("isResting", true); 
+            }
+            if (fish.CompareTag("Sardine"))
+            {
+                sardineAni.SetBool("isResting", true); 
+                Debug.Log("den blir kaldt");
+            }
             Debug.Log("Fish removed from lure.");
         }
+        
     }
 }

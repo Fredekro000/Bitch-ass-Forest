@@ -18,6 +18,10 @@ TagManager:
   - lb_bird1
   - Omrade
   - Origin
+  - Sardine
+  - Tuna
+  - TunaCheck
+  - SardineCheck
   layers:
   - Default
   - TransparentFX
