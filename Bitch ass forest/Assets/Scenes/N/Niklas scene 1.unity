@@ -22839,16 +22839,6 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1561974380}
     m_Modifications:
-    - target: {fileID: 811892136476407981, guid: f36c94525cca54944a5caeecde64277e,
-        type: 3}
-      propertyPath: Priority
-      value: 61
-      objectReference: {fileID: 0}
-    - target: {fileID: 811892136476407981, guid: f36c94525cca54944a5caeecde64277e,
-        type: 3}
-      propertyPath: m_Volume
-      value: 0.5
-      objectReference: {fileID: 0}
     - target: {fileID: 7448702107546853349, guid: f36c94525cca54944a5caeecde64277e,
         type: 3}
       propertyPath: m_Name
@@ -22907,11 +22897,7 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 7448702107546853349, guid: f36c94525cca54944a5caeecde64277e,
-        type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 1995525013}
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f36c94525cca54944a5caeecde64277e, type: 3}
 --- !u!1001 &1263382134
 PrefabInstance:
@@ -35218,31 +35204,6 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 9b5c2cee79e913047b63d33acc844b69, type: 3}
---- !u!1 &1995525009 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 7448702107546853349, guid: f36c94525cca54944a5caeecde64277e,
-    type: 3}
-  m_PrefabInstance: {fileID: 1260094742}
-  m_PrefabAsset: {fileID: 0}
---- !u!82 &1995525011 stripped
-AudioSource:
-  m_CorrespondingSourceObject: {fileID: 811892136476407981, guid: f36c94525cca54944a5caeecde64277e,
-    type: 3}
-  m_PrefabInstance: {fileID: 1260094742}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &1995525013
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1995525009}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9abba2fbf40eea9408c44263aa201062, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  radioSource: {fileID: 1995525011}
 --- !u!1001 &2001844839
 PrefabInstance:
   m_ObjectHideFlags: 0
