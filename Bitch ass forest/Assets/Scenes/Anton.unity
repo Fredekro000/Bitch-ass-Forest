@@ -548,6 +548,12 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f36c94525cca54944a5caeecde64277e, type: 3}
+--- !u!1 &125798019 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 5868330126844255279, guid: f36c94525cca54944a5caeecde64277e,
+    type: 3}
+  m_PrefabInstance: {fileID: 125798018}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &221199905
 GameObject:
   m_ObjectHideFlags: 0
@@ -7356,9 +7362,10 @@ GameObject:
   - component: {fileID: 904292825}
   - component: {fileID: 904292827}
   - component: {fileID: 904292826}
+  - component: {fileID: 904292828}
   m_Layer: 0
   m_Name: Left Controller
-  m_TagString: Untagged
+  m_TagString: Hand
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -7734,6 +7741,30 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 1
   m_PhysicsTriggerInteraction: 1
+--- !u!114 &904292828
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 904292823}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5af9f9d916640e9449beaf67b51f87b0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  RadioOn: {fileID: 7400000, guid: 356f0d3769a146f44ad848f70c3fdc28, type: 2}
+  RadioOff: {fileID: 7400000, guid: 3966f693206c1904d9ab94376026d3a7, type: 2}
+  red: {fileID: 2100000, guid: f612df00bf7c2344db34bc9e88d5df70, type: 2}
+  green: {fileID: 2100000, guid: 78537f87387fb4147b9dd3f20a494f95, type: 2}
+  button: {fileID: 125798019}
+  fadeTime: 1.5
+  rustleSounds: []
+  interactionWindSpeed: 2
+  defaultWindSpeed: 0.5
+  windTransitionSpeed: 2
+  movementThreshold: 0.1
+  movementCheckInterval: 0.1
 --- !u!1001 &931912486
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -15513,9 +15544,10 @@ GameObject:
   - component: {fileID: 1768852582}
   - component: {fileID: 1768852584}
   - component: {fileID: 1768852583}
+  - component: {fileID: 1768852585}
   m_Layer: 0
   m_Name: Right Controller
-  m_TagString: Untagged
+  m_TagString: Hand
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -15891,6 +15923,30 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 1
   m_PhysicsTriggerInteraction: 1
+--- !u!114 &1768852585
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1768852580}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5af9f9d916640e9449beaf67b51f87b0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  RadioOn: {fileID: 7400000, guid: 356f0d3769a146f44ad848f70c3fdc28, type: 2}
+  RadioOff: {fileID: 7400000, guid: 3966f693206c1904d9ab94376026d3a7, type: 2}
+  red: {fileID: 2100000, guid: f612df00bf7c2344db34bc9e88d5df70, type: 2}
+  green: {fileID: 2100000, guid: 78537f87387fb4147b9dd3f20a494f95, type: 2}
+  button: {fileID: 125798019}
+  fadeTime: 1.5
+  rustleSounds: []
+  interactionWindSpeed: 2
+  defaultWindSpeed: 0.5
+  windTransitionSpeed: 2
+  movementThreshold: 0.1
+  movementCheckInterval: 0.1
 --- !u!1001 &1837592843
 PrefabInstance:
   m_ObjectHideFlags: 0
