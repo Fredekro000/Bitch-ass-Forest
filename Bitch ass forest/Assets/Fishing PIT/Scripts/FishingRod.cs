@@ -18,6 +18,9 @@ public enum FishingRodState
 
 public class FishingRod : MonoBehaviour
 {
+    public AudioSource fishBlob;
+    public AudioSource lineThrow;
+
     public Transform rodTip;
     public Transform lure;
     public LineRenderer lineR;
@@ -224,6 +227,12 @@ public class FishingRod : MonoBehaviour
         {
             Debug.Log("'b press reeling fish");
             StartReelingFish();
+            Debug.Log("fishBlob");
+        
+            if (fishBlob.isPlaying == false)
+            {
+                fishBlob.Play();
+            }
         }
         if (currentState == FishingRodState.Idle)
         {
@@ -274,6 +283,9 @@ public class FishingRod : MonoBehaviour
                 throwForce = throwForce.normalized / maxThrowSpeed;
             }*/
             lureRb.AddForce(throwForce, ForceMode.VelocityChange);
+            
+            lineThrow.Play();
+            
         }
         else
         {
