@@ -17,6 +17,7 @@ public class box : MonoBehaviour
     
     private TextMeshProUGUI textForSardine;
     private TextMeshProUGUI textForTuna;
+    public FishingLogic fishingLogic;
 
     private void Start()
     {
@@ -43,7 +44,7 @@ public class box : MonoBehaviour
     {
         if (processedObjects.Contains(other.gameObject)) return; // Skip if already processed
 
-        if (other.CompareTag("Sardine"))
+        if (other.CompareTag("Sardine") && fishingLogic.currentState == LureState.Idle)
         {
             processedObjects.Add(other.gameObject);
             Destroy(other.gameObject);
@@ -52,7 +53,7 @@ public class box : MonoBehaviour
             counterSardine += 1;
             textForSardine.text = "Caught: " + counterSardine;
         }
-        else if (other.CompareTag("Tuna"))
+        else if (other.CompareTag("Tuna") && fishingLogic.currentState == LureState.Idle)
         {
             processedObjects.Add(other.gameObject);
             Destroy(other.gameObject);
