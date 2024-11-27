@@ -498,6 +498,21 @@ PrefabInstance:
       propertyPath: m_PlayOnAwake
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 4068494649983264260, guid: f36c94525cca54944a5caeecde64277e,
+        type: 3}
+      propertyPath: audioClips.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 4068494649983264260, guid: f36c94525cca54944a5caeecde64277e,
+        type: 3}
+      propertyPath: audioClips.Array.data[0]
+      value: 
+      objectReference: {fileID: 8300000, guid: 4d120f7d1d8f64ffcbeb92fe6ee93450, type: 3}
+    - target: {fileID: 4068494649983264260, guid: f36c94525cca54944a5caeecde64277e,
+        type: 3}
+      propertyPath: audioClips.Array.data[1]
+      value: 
+      objectReference: {fileID: 8300000, guid: bb35e7f2a43534347a93413e9ddedddb, type: 3}
     - target: {fileID: 7448702107546853349, guid: f36c94525cca54944a5caeecde64277e,
         type: 3}
       propertyPath: m_Name
