@@ -387,8 +387,8 @@ public class FishingRod : MonoBehaviour
     {
         float t = Mathf.Clamp01(fishingLogic.currentStrain / fishingLogic.strainThreshold); // Normalize currentStrain to a value between 0 and 1
         Color currentColor = Color.Lerp(baseColor, struggleColor, t); // Interpolate between baseColor and targetColor
-        lineR.startColor = currentColor;
-        lineR.endColor = currentColor;
+        //lineR.startColor = currentColor;
+       // lineR.endColor = currentColor;
         lineColor.color = currentColor;
     }
 
@@ -399,6 +399,7 @@ public class FishingRod : MonoBehaviour
 
     void UpdateCastingState()
     {
+        
         // Casting logic if needed
     }
 

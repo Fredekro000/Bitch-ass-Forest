@@ -121,7 +121,7 @@ public class FishingLogic : MonoBehaviour
     
     void UpdateIdleState()
     {
-        lure.GetComponent<Rigidbody>().isKinematic = false;
+        //lure.GetComponent<Rigidbody>().isKinematic = false;
         Debug.Log("Idle State");
         if (IsLureOnWater())
         {

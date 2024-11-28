@@ -10,7 +10,10 @@ public class RadioStart : MonoBehaviour
     void Start()
     {
         audioSource = GetComponent<AudioSource>();
-
+        audioSource.Play();
+        audioSource.Pause();
+        
+        /*
         if (audioClips.Length > 0)
         {
             StartCoroutine(PlaySequentialAudio());
@@ -18,7 +21,7 @@ public class RadioStart : MonoBehaviour
         else
         {
             Debug.LogWarning("No audio clips assigned to the SequentialAudioPlayer!");
-        }
+        }*/
     }
 
     private IEnumerator PlaySequentialAudio()
