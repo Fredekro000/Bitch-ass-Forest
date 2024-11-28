@@ -40,7 +40,7 @@ public class FishingLogic : MonoBehaviour
     public bool splashParticleActive = false;
 
     public float currentStrain = 0f;
-    public float strainThreshold = 100f;
+    public float strainThreshold = 40f;
     private Coroutine fishStruggleCoroutine;
     public FishingRod fishingRod;
 
@@ -121,6 +121,7 @@ public class FishingLogic : MonoBehaviour
     
     void UpdateIdleState()
     {
+        lure.GetComponent<Rigidbody>().isKinematic = false;
         Debug.Log("Idle State");
         if (IsLureOnWater())
         {
@@ -150,6 +151,7 @@ public class FishingLogic : MonoBehaviour
 
     void UpdateHookingFishState()
     {
+        lure.GetComponent<Rigidbody>().isKinematic = true;
         // AttachFishToLure();
         Debug.Log("Hooking Fish State");
     }
