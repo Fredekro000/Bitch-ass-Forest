@@ -8,11 +8,11 @@ public class Sardinego : MonoBehaviour
     public GameObject fish;
     public GameObject swimTarget;
     public float speed;
-    private Vector3 poo;
+    private Vector3 startposition;
 
     private void Start()
     {
-        poo = transform.position;
+        startposition = transform.position;
     }
 
     // Update is called once per frame
@@ -21,7 +21,7 @@ public class Sardinego : MonoBehaviour
         fish.transform.position = Vector3.MoveTowards(fish.transform.position, swimTarget.transform.position, speed);
         if (Vector3.Distance(transform.position, swimTarget.transform.position) < 0.2f)
         {
-            transform.position = poo;
+            transform.position = startposition;
         }
     }
 }
