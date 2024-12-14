@@ -1,4 +1,4 @@
-# Bitch-ass-Forest
+# P5 Forest Bathing
 The fishing PIT project can be found inside the folder called "Bitch ass forest" under that the folder "Assets" contains the "Fishing PIT" where all the scripts releated are inside the script folder. The scene is called "FishingPIT" where the game can be played.
 # Requirements
 The project requires a VR headset to play, with a Unity version of "2022.3.47f1".
