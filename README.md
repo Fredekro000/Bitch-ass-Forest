@@ -1,7 +1,8 @@
 # P5 Forest Bathing
-The fishing PIT project can be found inside the folder called "Bitch ass forest" under that the folder "Assets" contains the "Fishing PIT" where all the scripts releated are inside the script folder. The scene is called "FishingPIT" where the game can be played.
+Is a virtual reality game set in a forest near a small creek, the world is interactable with dynamic elements providing a calm experience.
+
 # Requirements
 The project requires a VR headset to play, with a Unity version of "2022.3.47f1".
 
 # How to play:
-to cast the fishing rod's lure the right VR controller's A button has to be pressed then swing the controller releasing the A button at the end of the cast. To reel the lure back in the B button on the controller is held down, if a fish is caught the B button can be used to release it from the fishing rod. The fish can then be picked up and placed inside the chest. 
+The game is setup and adjusted for a Quest 2. Movement is based on users to walk around, and therefore free of controllers. However, in order to calibrate your position, you can click the A button on the right hand controller and be recentered near the radio. clicking on the B button resets the birds perching on the tree in the middle. Its possible to turn the radio on and off, and scare off the birds perching on the tree.
